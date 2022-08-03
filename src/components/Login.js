@@ -7,9 +7,9 @@ export default function Login() {
         <main>
             <MainLogo src={Logo} alt="" />
             <InputContainer>
-                <input type="email" placeholder="email" ></input>
-                <input type="password" placeholder="senha" ></input>
-                <div>Entrar</div>
+                <input type="email" placeholder="email" required></input>
+                <input type="password" placeholder="senha" required></input>
+                <button>Entrar</button>
             </InputContainer>
             <Link to="/cadastro">
                 <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
@@ -35,7 +35,7 @@ export const SignUpLogin = styled.span`
     text-decoration: underline;
 `;
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.form`
     width: 303px;
     display: flex;
     flex-direction: column;
@@ -58,10 +58,11 @@ export const InputContainer = styled.div`
         opacity: 1;
     }
 
-    div {
+    button {
         width: 100%;
         height: 45px;
         background-color: #52B6FF;
+        border: 0px;
         border-radius: 4.64px;
         color: #FFFFFF;
         font-size: 21px;
