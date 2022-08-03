@@ -12,26 +12,30 @@ export default function Login() {
                 <div>Entrar</div>
             </InputContainer>
             <Link to="/cadastro">
-                <SignUpLink>Não tem uma conta? Cadastre-se</SignUpLink>
+                <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
             </Link>
         </main>
     );
 }
 
-const MainLogo = styled.img`
+export const MainNotAuth = styled.main`
+    background-color: #FFFFFF;
+`;
+
+export const MainLogo = styled.img`
     width: 180px;
     height: 178.38px;
     margin-top: 68px;
     margin-bottom: 32.62px;
 `;
 
-const SignUpLink = styled.span`
+export const SignUpLogin = styled.span`
     color: #52B6FF;
     font-size: 14px;
     text-decoration: underline;
 `;
 
-const InputContainer = styled.div`
+export const InputContainer = styled.div`
     width: 303px;
     display: flex;
     flex-direction: column;
@@ -47,6 +51,7 @@ const InputContainer = styled.div`
         border-radius: 5px;
         font-size: 20px;
         color: #666666;
+        outline: none;
     }
     input::placeholder {
         color: #DBDBDB;
