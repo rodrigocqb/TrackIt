@@ -44,6 +44,27 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* CSS reset done */
+
+*{
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Lexend Deca', sans-serif;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 17px;
+}
+
+a {
+	text-decoration: none;
+}
 `;
 
 export default GlobalStyle;
