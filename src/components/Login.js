@@ -1,15 +1,82 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../img/logo.svg";
+import { ThreeDots } from "react-loader-spinner";
+import { postLogin } from "../services/trackit";
 
 export default function Login() {
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [disabled, setDisabled] = useState(false);
+
+    const navigate = useNavigate();
+
+    function handleForm({ value, name }) {
+        setForm({
+            ...form,
+            [name]: value,
+        });
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        setDisabled(true);
+        postLogin(form)
+            .then(() => {
+                navigate("/hoje");
+            })
+            .catch(() => {
+                alert("Houve um erro no seu login.");
+                setDisabled(false);
+            });
+    }
+
     return (
         <main>
             <MainLogo src={Logo} alt="" />
-            <InputContainer>
-                <input type="email" placeholder="email" required></input>
-                <input type="password" placeholder="senha" required></input>
-                <button>Entrar</button>
+            <InputContainer onSubmit={handleSubmit} disabled={disabled}>
+            <input
+                    type="email"
+                    placeholder="email"
+                    name="email"
+                    onChange={(e) =>
+                        handleForm({
+                            name: e.target.name,
+                            value: e.target.value,
+                        })
+                    }
+                    disabled={disabled}
+                    required
+                ></input>
+                <input
+                    type="password"
+                    placeholder="senha"
+                    name="password"
+                    onChange={(e) =>
+                        handleForm({
+                            name: e.target.name,
+                            value: e.target.value,
+                        })
+                    }
+                    disabled={disabled}
+                    required
+                ></input>
+                <button type="submit" disabled={disabled}>
+                    {disabled ? (
+                        <ThreeDots
+                            height="13"
+                            width="51"
+                            color="#FFFFFF"
+                            ariaLabel="three-dots-loading"
+                        />
+                    ) : (
+                        <p>Entrar</p>
+                    )}
+                </button>
             </InputContainer>
             <Link to="/cadastro">
                 <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
@@ -46,7 +113,7 @@ export const InputContainer = styled.form`
         width: 100%;
         height: 45px;
         padding-left: 11px;
-        background: #FFFFFF;
+        background-color: ${(props) => props.disabled ? "#F2F2F2" : "#FFFFFF"};
         border: 1px solid #D5D5D5;
         border-radius: 5px;
         font-size: 20px;
@@ -54,7 +121,7 @@ export const InputContainer = styled.form`
         outline: none;
     }
     input::placeholder {
-        color: #DBDBDB;
+        color: ${(props) => props.disabled ? "#AFAFAF" : "#DBDBDB"};
         opacity: 1;
     }
 
@@ -69,5 +136,6 @@ export const InputContainer = styled.form`
         display: flex;
         justify-content: center;
         align-items: center;
+        opacity: ${(props) => props.disabled ? 0.7 : 1};
     }
 `;

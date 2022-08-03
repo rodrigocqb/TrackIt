@@ -3,6 +3,7 @@ import Logo from "../img/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { postSignUp } from "../services/trackit.js";
 import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function SignUp() {
     const [form, setForm] = useState({
@@ -11,6 +12,8 @@ export default function SignUp() {
         image: "",
         password: "",
     });
+
+    const [disabled, setDisabled] = useState(false);
 
     const navigate = useNavigate();
 
@@ -23,19 +26,21 @@ export default function SignUp() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(form)
-        postSignUp(form).then(() => {
-            navigate("/");
-        }).catch((res) => {
-            console.log("An error has occurred");
-            console.log(res.data);
-        });
+        setDisabled(true);
+        postSignUp(form)
+            .then(() => {
+                navigate("/");
+            })
+            .catch(() => {
+                alert("Houve um erro no seu cadastro.");
+                setDisabled(false);
+            });
     }
 
     return (
         <MainNotAuth>
             <MainLogo src={Logo} alt="" />
-            <InputContainer onSubmit={handleSubmit}>
+            <InputContainer onSubmit={handleSubmit} disabled={disabled}>
                 <input
                     type="email"
                     placeholder="email"
@@ -46,6 +51,7 @@ export default function SignUp() {
                             value: e.target.value,
                         })
                     }
+                    disabled={disabled}
                     required
                 ></input>
                 <input
@@ -58,6 +64,7 @@ export default function SignUp() {
                             value: e.target.value,
                         })
                     }
+                    disabled={disabled}
                     required
                 ></input>
                 <input
@@ -70,6 +77,7 @@ export default function SignUp() {
                             value: e.target.value,
                         })
                     }
+                    disabled={disabled}
                     required
                 ></input>
                 <input
@@ -82,9 +90,21 @@ export default function SignUp() {
                             value: e.target.value,
                         })
                     }
+                    disabled={disabled}
                     required
                 ></input>
-                <button type="submit">Entrar</button>
+                <button type="submit" disabled={disabled}>
+                    {disabled ? (
+                        <ThreeDots
+                            height="13"
+                            width="51"
+                            color="#FFFFFF"
+                            ariaLabel="three-dots-loading"
+                        />
+                    ) : (
+                        <p>Cadastrar</p>
+                    )}
+                </button>
             </InputContainer>
             <Link to="/">
                 <SignUpLogin>Já tem uma conta? Faça login!</SignUpLogin>
