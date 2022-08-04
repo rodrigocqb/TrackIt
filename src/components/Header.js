@@ -13,7 +13,7 @@ export default function Header() {
 }
 
 const HeaderWrapper = styled.header`
-    width: 375px;
+    width: 100vw;
     height: 70px;
     background-color: #126BA5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
@@ -25,8 +25,8 @@ const HeaderWrapper = styled.header`
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    left: 0;
     top: 0;
+    left: 0;
     z-index: 2;
 
     img {
