@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { postSignUp } from "../services/trackit.js";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { Input } from "../common/Input";
+import { Button } from "../common/Button";
 
 export default function SignUp() {
     const [form, setForm] = useState({
@@ -40,8 +42,8 @@ export default function SignUp() {
     return (
         <MainNotAuth>
             <MainLogo src={Logo} alt="" />
-            <FormWrapper onSubmit={handleSubmit} disabled={disabled}>
-                <input
+            <FormWrapper onSubmit={handleSubmit}>
+                <Input
                     type="email"
                     placeholder="email"
                     name="email"
@@ -53,8 +55,8 @@ export default function SignUp() {
                     }
                     disabled={disabled}
                     required
-                ></input>
-                <input
+                ></Input>
+                <Input
                     type="password"
                     placeholder="senha"
                     name="password"
@@ -66,8 +68,8 @@ export default function SignUp() {
                     }
                     disabled={disabled}
                     required
-                ></input>
-                <input
+                ></Input>
+                <Input
                     type="text"
                     placeholder="nome"
                     name="name"
@@ -79,8 +81,8 @@ export default function SignUp() {
                     }
                     disabled={disabled}
                     required
-                ></input>
-                <input
+                ></Input>
+                <Input
                     type="url"
                     placeholder="foto"
                     name="image"
@@ -92,8 +94,8 @@ export default function SignUp() {
                     }
                     disabled={disabled}
                     required
-                ></input>
-                <button type="submit" disabled={disabled}>
+                ></Input>
+                <Button type="submit" disabled={disabled}>
                     {disabled ? (
                         <ThreeDots
                             height="13"
@@ -104,7 +106,7 @@ export default function SignUp() {
                     ) : (
                         <p>Cadastrar</p>
                     )}
-                </button>
+                </Button>
             </FormWrapper>
             <Link to="/">
                 <SignUpLogin>Já tem uma conta? Faça login!</SignUpLogin>

@@ -6,6 +6,8 @@ import { ThreeDots } from "react-loader-spinner";
 import { postLogin } from "../services/trackit";
 import LoginContext from "../contexts/LoginContext";
 import UserContext from "../contexts/UserContext";
+import { Input } from "../common/Input";
+import { Button } from "../common/Button";
 
 export default function Login() {
     const [form, setForm] = useState({
@@ -44,8 +46,8 @@ export default function Login() {
     return (
         <main>
             <MainLogo src={Logo} alt="" />
-            <FormWrapper onSubmit={handleSubmit} disabled={disabled}>
-                <input
+            <FormWrapper onSubmit={handleSubmit}>
+                <Input
                     type="email"
                     placeholder="email"
                     name="email"
@@ -57,8 +59,8 @@ export default function Login() {
                     }
                     disabled={disabled}
                     required
-                ></input>
-                <input
+                ></Input>
+                <Input
                     type="password"
                     placeholder="senha"
                     name="password"
@@ -70,8 +72,8 @@ export default function Login() {
                     }
                     disabled={disabled}
                     required
-                ></input>
-                <button type="submit" disabled={disabled}>
+                ></Input>
+                <Button type="submit" disabled={disabled}>
                     {disabled ? (
                         <ThreeDots
                             height="13"
@@ -82,7 +84,7 @@ export default function Login() {
                     ) : (
                         <p>Entrar</p>
                     )}
-                </button>
+                </Button>
             </FormWrapper>
             <Link to="/cadastro">
                 <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
@@ -115,34 +117,4 @@ export const FormWrapper = styled.form`
   flex-direction: column;
   row-gap: 6px;
   margin-bottom: 25px;
-
-  input {
-    width: 100%;
-    height: 45px;
-    padding-left: 11px;
-    background-color: ${(props) => (props.disabled ? "#F2F2F2" : "#FFFFFF")};
-    border: 1px solid #d5d5d5;
-    border-radius: 5px;
-    font-size: 20px;
-    color: #666666;
-    outline: none;
-  }
-  input::placeholder {
-    color: ${(props) => (props.disabled ? "#AFAFAF" : "#DBDBDB")};
-    opacity: 1;
-  }
-
-  button {
-    width: 100%;
-    height: 45px;
-    background-color: #52b6ff;
-    border: 0px;
-    border-radius: 4.64px;
-    color: #ffffff;
-    font-size: 21px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: ${(props) => (props.disabled ? 0.7 : 1)};
-  }
 `;

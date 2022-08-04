@@ -1,12 +1,28 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { Input } from "../common/Input";
 import { MainAuth } from "../common/MainAuth";
 import { TitleSection } from "../common/TitleSection";
+import LoginContext from "../contexts/LoginContext";
+import { getHabits } from "../services/trackit";
 import Footer from "./Footer";
 import Header from "./Header";
 
 export default function Habits() {
     const [userHabits, setUserHabits] = useState([]);
+
+    const { token } = useContext(LoginContext);
+
+    useEffect(() => {
+        getHabits(token)
+            .then((res) => {
+                setUserHabits(res.data);
+            })
+            .catch(() => {
+                alert("Houve um erro ao carregar os hábitos");
+            });
+    }, []);
+
     return (
         <>
             <Header />
@@ -15,6 +31,9 @@ export default function Habits() {
                     <h1>Meus hábitos</h1>
                     <AddButton>+</AddButton>
                 </TitleSection>
+                <FormSection>
+                    <Input></Input>
+                </FormSection>
                 <HabitSection>
                     {userHabits.length === 0 ? (
                         <span>
@@ -44,9 +63,18 @@ const AddButton = styled.div`
 `;
 
 const HabitSection = styled.section`
-    margin-top: 28px;
+    margin-top: 29px;
     color: #666666;
+
     span {
         font-size: 18px;
     }
+`;
+
+const FormSection = styled.section`
+    margin-top: 20px;
+    height: 180px;
+    padding: 18px 17px 15px 19px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
 `;

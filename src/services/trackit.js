@@ -12,4 +12,15 @@ function postLogin(body) {
     return promise;
 }
 
-export { postSignUp, postLogin };
+function getHabits(token) {
+    const promise = axios.get(`${BASE_URL}/habits`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+    return promise;
+}
+
+export { postSignUp, postLogin, getHabits };
