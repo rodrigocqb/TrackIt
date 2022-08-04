@@ -8,18 +8,20 @@ export default function Footer() {
         <FooterWrapper>
             <Link to="/habitos">Hábitos</Link>
             <Container>
-                <CircularProgressbar
-                    value={66}
-                    text="Hoje"
-                    background={true}
-                    backgroundPadding={6}
-                    styles={buildStyles({
-                        backgroundColor: "#52B6FF",
-                        textColor: "#FFFFFF",
-                        pathColor: "#FFFFFF",
-                        trailColor: "transparent",
-                    })}
-                />
+                <Link to="/hoje">
+                    <CircularProgressbar
+                        value={66}
+                        text="Hoje"
+                        background={true}
+                        backgroundPadding={6}
+                        styles={buildStyles({
+                            backgroundColor: "#52B6FF",
+                            textColor: "#FFFFFF",
+                            pathColor: "#FFFFFF",
+                            trailColor: "transparent",
+                        })}
+                    />
+                </Link>
             </Container>
             <Link to="/historico">Histórico</Link>
         </FooterWrapper>

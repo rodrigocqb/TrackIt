@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginContext from "../context/LoginContext";
-import UserContext from "../context/UserContext";
+import LoginContext from "../contexts/LoginContext";
+import UserContext from "../contexts/UserContext";
 import GlobalStyle from "../style/globalStyle";
 import Habits from "./Habits";
 import History from "./History";

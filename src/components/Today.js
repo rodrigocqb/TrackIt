@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import LoginContext from "../context/LoginContext";
-import UserContext from "../context/UserContext";
+import LoginContext from "../contexts/LoginContext";
+import UserContext from "../contexts/UserContext";
 import Footer from "./Footer";
 import Header from "./Header";
 

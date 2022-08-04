@@ -4,8 +4,8 @@ import styled from "styled-components";
 import Logo from "../img/logo.svg";
 import { ThreeDots } from "react-loader-spinner";
 import { postLogin } from "../services/trackit";
-import LoginContext from "../context/LoginContext";
-import UserContext from "../context/UserContext";
+import LoginContext from "../contexts/LoginContext";
+import UserContext from "../contexts/UserContext";
 
 export default function Login() {
     const [form, setForm] = useState({
