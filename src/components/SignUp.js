@@ -1,4 +1,4 @@
-import { InputContainer, MainLogo, MainNotAuth, SignUpLogin } from "./Login";
+import { FormWrapper, MainLogo, MainNotAuth, SignUpLogin } from "./Login";
 import Logo from "../img/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { postSignUp } from "../services/trackit.js";
@@ -40,7 +40,7 @@ export default function SignUp() {
     return (
         <MainNotAuth>
             <MainLogo src={Logo} alt="" />
-            <InputContainer onSubmit={handleSubmit} disabled={disabled}>
+            <FormWrapper onSubmit={handleSubmit} disabled={disabled}>
                 <input
                     type="email"
                     placeholder="email"
@@ -105,7 +105,7 @@ export default function SignUp() {
                         <p>Cadastrar</p>
                     )}
                 </button>
-            </InputContainer>
+            </FormWrapper>
             <Link to="/">
                 <SignUpLogin>Já tem uma conta? Faça login!</SignUpLogin>
             </Link>
