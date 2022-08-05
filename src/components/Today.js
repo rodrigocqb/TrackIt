@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { MainAuth } from "../common/MainAuth";
 import { TitleSection } from "../common/TitleSection";
 import LoginContext from "../contexts/LoginContext";
+import ProgressContext from "../contexts/ProgressContext";
 import { getHabitsToday } from "../services/trackit";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -16,6 +17,7 @@ export default function Today() {
     const [loadSwitch, setLoadSwitch] = useState(false);
 
     const { token } = useContext(LoginContext);
+    const { progress, setProgress } = useContext(ProgressContext);
 
     dayjs.extend(updateLocale);
     dayjs.updateLocale("pt-br", {
@@ -36,11 +38,18 @@ export default function Today() {
         getHabitsToday(token)
             .then((res) => {
                 setHabitsToday(res.data);
+                setProgress(
+                    Math.round(
+                        (res.data.filter((value) => value.done === true).length /
+                            res.data.length) *
+                        100
+                    )
+                );
             })
             .catch(() => {
                 alert("Houve um erro ao carregar seus hábitos de hoje");
             });
-    }, [token, loadSwitch]);
+    }, [token, loadSwitch, setProgress]);
 
     return (
         <>
@@ -49,8 +58,12 @@ export default function Today() {
                 <TitleSection>
                     <div>
                         <h1>{today}</h1>
-                        <ProgressContainer>
-                            <p>Nenhum hábito concluído ainda</p>
+                        <ProgressContainer done={progress}>
+                            <p>
+                                {progress
+                                    ? `${progress}% dos hábitos concluídos`
+                                    : "Nenhum hábito concluído ainda"}
+                            </p>
                         </ProgressContainer>
                     </div>
                 </TitleSection>
