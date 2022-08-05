@@ -1,19 +1,28 @@
 import { useContext, useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import styled from "styled-components";
+import { Button } from "../common/Button";
 import { Input } from "../common/Input";
 import { MainAuth } from "../common/MainAuth";
 import { TitleSection } from "../common/TitleSection";
 import LoginContext from "../contexts/LoginContext";
-import { getHabits } from "../services/trackit";
+import { getHabits, postHabit } from "../services/trackit";
+import DayButton from "./DayButton";
 import Footer from "./Footer";
 import Header from "./Header";
 
 export default function Habits() {
     const [userHabits, setUserHabits] = useState([]);
     const [disabled, setDisabled] = useState(false);
-    const [newHabit, setNewHabit] = useState({ habit: "", open: false });
+    const [newHabit, setNewHabit] = useState({
+        habit: "",
+        open: false,
+        days: [],
+    });
 
     const { token } = useContext(LoginContext);
+
+    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
 
     useEffect(() => {
         getHabits(token)
@@ -33,10 +42,36 @@ export default function Habits() {
     }
 
     function showHabitForm() {
+        setDisabled(false);
         setNewHabit({
             ...newHabit,
             open: !newHabit.open,
         });
+    }
+
+    function createHabit() {
+        if (newHabit.days.length === 0) {
+            return alert("Selecione pelo menos um dia para o seu hábito!");
+        }
+
+        setDisabled(true);
+        const body = {
+            name: newHabit.habit,
+            days: newHabit.days,
+        }
+
+        postHabit(body, token)
+            .then(() => {
+                setNewHabit({
+                    habit: "",
+                    open: false,
+                    days: [],
+                });
+            })
+            .catch(() => {
+                alert("Insira dados válidos!");
+                setDisabled(false);
+            });
     }
 
     return (
@@ -49,7 +84,7 @@ export default function Habits() {
                 </TitleSection>
                 {newHabit.open && (
                     <FormSection>
-                        <form>
+                        <div>
                             <Input
                                 type="text"
                                 placeholder="nome do hábito"
@@ -65,13 +100,34 @@ export default function Habits() {
                                 required
                             ></Input>
                             <DaysContainer>
-                                <div>gerso</div>
+                                {weekdays.map((value, index) => (
+                                    <DayButton
+                                        key={index}
+                                        id={index}
+                                        disabled={disabled}
+                                        newHabit={newHabit}
+                                        setNewHabit={setNewHabit}
+                                    >
+                                        {value}
+                                    </DayButton>
+                                ))}
                             </DaysContainer>
                             <FormBottom>
                                 <p onClick={showHabitForm}>Cancelar</p>
-                                <div>Salvar</div>
+                                <SaveButton type="submit" disabled={disabled} onClick={createHabit}>
+                                    {disabled ? (
+                                        <ThreeDots
+                                            height="13"
+                                            width="51"
+                                            color="#FFFFFF"
+                                            ariaLabel="three-dots-loading"
+                                        />
+                                    ) : (
+                                        <span>Salvar</span>
+                                    )}
+                                </SaveButton>
                             </FormBottom>
-                        </form>
+                        </div>
                     </FormSection>
                 )}
                 <HabitSection>
@@ -120,37 +176,28 @@ const FormSection = styled.section`
 `;
 
 const DaysContainer = styled.div`
-    margin-top: 8px;
-    display: flex;
-    column-gap: 4px;
-
-    div {
-        width: 30px;
-        height: 30px;
-    }
+  margin-top: 8px;
+  display: flex;
+  column-gap: 4px;
 `;
 
 const FormBottom = styled.div`
-    margin-top: 29px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    column-gap: 23px;
-    align-items: center;
-    font-size: 16px;
+  margin-top: 29px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 23px;
+  align-items: center;
+  font-size: 16px;
 
-    p{
-        color: #52B6FF;
-    }
+  p {
+    color: #52b6ff;
+  }
+`;
 
-    div {
-        width: 84px;
-        height: 35px;
-        background-color: #52B6FF;
-        color: #FFFFFF;
-        border-radius: 4.64px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+const SaveButton = styled(Button)`
+  width: 84px;
+  height: 35px;
+  font-size: 16px;
+  font-family: "Lexend Deca", sans-serif;
 `;

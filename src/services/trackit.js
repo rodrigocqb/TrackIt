@@ -13,14 +13,21 @@ function postLogin(body) {
 }
 
 function getHabits(token) {
-    const promise = axios.get(`${BASE_URL}/habits`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    );
+    const promise = axios.get(`${BASE_URL}/habits`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
     return promise;
 }
 
-export { postSignUp, postLogin, getHabits };
+function postHabit(body, token) {
+    const promise = axios.post(`${BASE_URL}/habits`, body, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return promise;
+}
+
+export { postSignUp, postLogin, getHabits, postHabit };
