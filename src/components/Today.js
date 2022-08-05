@@ -13,6 +13,7 @@ import TodayHabit from "./TodayHabit";
 
 export default function Today() {
     const [habitsToday, setHabitsToday] = useState([]);
+    const [loadSwitch, setLoadSwitch] = useState(false);
 
     const { token } = useContext(LoginContext);
 
@@ -39,7 +40,7 @@ export default function Today() {
             .catch(() => {
                 alert("Houve um erro ao carregar seus hábitos de hoje");
             });
-    }, [token]);
+    }, [token, loadSwitch]);
 
     return (
         <>
@@ -62,6 +63,8 @@ export default function Today() {
                             done={value.done}
                             currentSequence={value.currentSequence}
                             highestSequence={value.highestSequence}
+                            loadSwitch={loadSwitch}
+                            setLoadSwitch={setLoadSwitch}
                         />
                     ))}
                 </TodaySection>
