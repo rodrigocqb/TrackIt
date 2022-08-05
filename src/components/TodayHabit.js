@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function TodayHabit({
     id,
@@ -8,7 +9,7 @@ export default function TodayHabit({
     highestSequence,
 }) {
     return (
-        <Wrapper>
+        <Wrapper done={done}>
             <div>
                 <h2>{name}</h2>
                 <div>
@@ -24,6 +25,9 @@ export default function TodayHabit({
                     </span>
                 </div>
             </div>
+            <div>
+                <i className="bi bi-check-square-fill"></i>
+            </div>
         </Wrapper>
     );
 }
@@ -34,10 +38,12 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   border-radius: 5px;
   color: #666666;
-  padding: 14px 13px 17px 15px;
+  padding: 13px 13px 12px 15px;
   display: flex;
+  justify-content: space-between;
 
   h2 {
+    padding-top: 2px;
     font-size: 20px;
   }
 
@@ -53,5 +59,11 @@ const Wrapper = styled.div`
 
   div > div {
     row-gap: 2px;
+    margin-bottom: 5px;
+  }
+
+  i {
+    font-size: 69px;
+    color: ${props => props.done ? "#8FC549" : "#E7E7E7"};
   }
 `;
