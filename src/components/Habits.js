@@ -9,6 +9,7 @@ import LoginContext from "../contexts/LoginContext";
 import { getHabits, postHabit } from "../services/trackit";
 import DayButton from "./DayButton";
 import Footer from "./Footer";
+import Habit from "./Habit";
 import Header from "./Header";
 
 export default function Habits() {
@@ -19,6 +20,7 @@ export default function Habits() {
         open: false,
         days: [],
     });
+    const [loadSwitch, setLoadSwitch] = useState(false);
 
     const { token } = useContext(LoginContext);
 
@@ -32,7 +34,7 @@ export default function Habits() {
             .catch(() => {
                 alert("Houve um erro ao carregar os hábitos");
             });
-    }, [token]);
+    }, [token, loadSwitch]);
 
     function handleNewHabit({ value, name }) {
         setNewHabit({
@@ -58,7 +60,7 @@ export default function Habits() {
         const body = {
             name: newHabit.habit,
             days: newHabit.days,
-        }
+        };
 
         postHabit(body, token)
             .then(() => {
@@ -67,6 +69,7 @@ export default function Habits() {
                     open: false,
                     days: [],
                 });
+                setLoadSwitch(!loadSwitch);
             })
             .catch(() => {
                 alert("Insira dados válidos!");
@@ -114,7 +117,11 @@ export default function Habits() {
                             </DaysContainer>
                             <FormBottom>
                                 <p onClick={showHabitForm}>Cancelar</p>
-                                <SaveButton type="submit" disabled={disabled} onClick={createHabit}>
+                                <SaveButton
+                                    type="submit"
+                                    disabled={disabled}
+                                    onClick={createHabit}
+                                >
                                     {disabled ? (
                                         <ThreeDots
                                             height="13"
@@ -130,16 +137,28 @@ export default function Habits() {
                         </div>
                     </FormSection>
                 )}
-                <HabitSection>
+                <HabitsSection>
                     {userHabits.length === 0 ? (
                         <span>
                             Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
                             para começar a trackear!
                         </span>
                     ) : (
-                        <></>
+                        <HabitsContainer>
+                            {userHabits.map((value) => 
+                                <Habit
+                                    id={value.id}
+                                    name={value.name}
+                                    days={value.days}
+                                    weekdays={weekdays}
+                                    key={value.id}
+                                    loadSwitch={loadSwitch}
+                                    setLoadSwitch={setLoadSwitch}
+                                />
+                            )}
+                        </HabitsContainer>
                     )}
-                </HabitSection>
+                </HabitsSection>
             </MainAuth>
             <Footer />
         </>
@@ -158,13 +177,20 @@ const AddButton = styled.div`
   font-size: 27px;
 `;
 
-const HabitSection = styled.section`
+const HabitsSection = styled.section`
   margin-top: 29px;
+  margin-bottom: 50px;
   color: #666666;
 
   span {
     font-size: 18px;
   }
+`;
+
+const HabitsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
 `;
 
 const FormSection = styled.section`
