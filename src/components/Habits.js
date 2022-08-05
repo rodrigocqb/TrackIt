@@ -178,11 +178,12 @@ const AddButton = styled.div`
 `;
 
 const HabitsSection = styled.section`
-  margin-top: 29px;
+  margin-top: 20px;
   margin-bottom: 50px;
   color: #666666;
 
   span {
+    padding-top: 9px;
     font-size: 18px;
   }
 `;
@@ -195,6 +196,7 @@ const HabitsContainer = styled.div`
 
 const FormSection = styled.section`
   margin-top: 20px;
+  margin-bottom: 9px;
   height: 180px;
   padding: 18px 17px 15px 19px;
   background-color: #ffffff;

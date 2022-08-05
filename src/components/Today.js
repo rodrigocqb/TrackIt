@@ -1,15 +1,18 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import updateLocale from "dayjs/plugin/updateLocale";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { MainAuth } from "../common/MainAuth";
 import { TitleSection } from "../common/TitleSection";
 import LoginContext from "../contexts/LoginContext";
+import { getHabitsToday } from "../services/trackit";
 import Footer from "./Footer";
 import Header from "./Header";
 
 export default function Today() {
+    const [habitsToday, setHabitsToday] = useState([]);
+
     const { token } = useContext(LoginContext);
 
     dayjs.extend(updateLocale);
@@ -18,6 +21,16 @@ export default function Today() {
     });
 
     const today = dayjs().locale("pt-br").format("dddd, DD/MM");
+
+    useEffect(() => {
+        getHabitsToday(token)
+            .then((res) => {
+                setHabitsToday(res.data);
+            })
+            .catch(() => {
+                alert("Houve um erro ao carregar seus hábitos de hoje");
+            });
+    }, [token]);
 
     return (
         <>
