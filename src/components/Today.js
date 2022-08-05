@@ -9,6 +9,7 @@ import LoginContext from "../contexts/LoginContext";
 import { getHabitsToday } from "../services/trackit";
 import Footer from "./Footer";
 import Header from "./Header";
+import TodayHabit from "./TodayHabit";
 
 export default function Today() {
     const [habitsToday, setHabitsToday] = useState([]);
@@ -17,7 +18,15 @@ export default function Today() {
 
     dayjs.extend(updateLocale);
     dayjs.updateLocale("pt-br", {
-        weekdays: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+        weekdays: [
+            "Domingo",
+            "Segunda",
+            "Terça",
+            "Quarta",
+            "Quinta",
+            "Sexta",
+            "Sábado",
+        ],
     });
 
     const today = dayjs().locale("pt-br").format("dddd, DD/MM");
@@ -44,6 +53,18 @@ export default function Today() {
                         </ProgressContainer>
                     </div>
                 </TitleSection>
+                <TodaySection>
+                    {habitsToday.map((value, index) => (
+                        <TodayHabit
+                            key={index}
+                            id={value.id}
+                            name={value.name}
+                            done={value.done}
+                            currentSequence={value.currentSequence}
+                            highestSequence={value.highestSequence}
+                        />
+                    ))}
+                </TodaySection>
             </MainAuth>
             <Footer />
         </>
@@ -51,7 +72,15 @@ export default function Today() {
 }
 
 const ProgressContainer = styled.div`
-    margin-top: 5px;
-    font-size: 18px;
-    color: ${props => props.done ? "#8FC549" : "#BABABA"};
+  margin-top: 5px;
+  font-size: 18px;
+  color: ${(props) => (props.done ? "#8FC549" : "#BABABA")};
+`;
+
+const TodaySection = styled.section`
+  margin-top: 29px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 `;
