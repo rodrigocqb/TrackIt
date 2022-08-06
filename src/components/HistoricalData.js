@@ -4,7 +4,7 @@ import { TitleSection } from "../common/TitleSection";
 import Footer from "./Footer";
 import Header from "./Header";
 
-export default function History() {
+export default function HistoricalData() {
     return (
         <>
             <MainAuth>

@@ -5,8 +5,9 @@ import ProgressContext from "../contexts/ProgressContext";
 import UserContext from "../contexts/UserContext";
 import GlobalStyle from "../style/globalStyle";
 import Habits from "./Habits";
-import History from "./History";
+import HistoricalData from "./HistoricalData";
 import Login from "./Login";
+import PrivatePage from "./PrivatePage";
 import SignUp from "./SignUp";
 import Today from "./Today";
 
@@ -24,9 +25,30 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/cadastro" element={<SignUp />} />
-              <Route path="/habitos" element={<Habits />} />
-              <Route path="/hoje" element={<Today />} />
-              <Route path="/historico" element={<History />} />
+              <Route
+                path="/habitos"
+                element={
+                  <PrivatePage>
+                    <Habits />
+                  </PrivatePage>
+                }
+              />
+              <Route
+                path="/hoje"
+                element={
+                  <PrivatePage>
+                    <Today />
+                  </PrivatePage>
+                }
+              />
+              <Route
+                path="/historico"
+                element={
+                  <PrivatePage>
+                    <HistoricalData />
+                  </PrivatePage>
+                }
+              />
             </Routes>
           </ProgressContext.Provider>
         </UserContext.Provider>
