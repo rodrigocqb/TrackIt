@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../img/logo.svg";
@@ -21,6 +21,15 @@ export default function Login() {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        if (localUser) {
+            setUser(localUser);
+            setToken(localUser.token);
+            navigate("/hoje");
+        }
+    },[navigate, setToken, setUser])
+
     function handleForm({ value, name }) {
         setForm({
             ...form,
@@ -34,6 +43,7 @@ export default function Login() {
         postLogin(form)
             .then((res) => {
                 setUser(res.data);
+                localStorage.setItem("user", JSON.stringify(res.data));
                 setToken(res.data.token);
                 navigate("/hoje");
             })
