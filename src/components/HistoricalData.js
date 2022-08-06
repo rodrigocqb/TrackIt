@@ -11,56 +11,56 @@ import Footer from "./Footer";
 import Header from "./Header";
 
 export default function HistoricalData() {
-    const [data, setData] = useState([]);
-    const [days, setDays] = useState([]);
+  const [data, setData] = useState([]);
+  const [days, setDays] = useState([]);
 
-    const { token } = useContext(LoginContext);
+  const { token } = useContext(LoginContext);
 
-    useEffect(() => {
-        getHistory(token)
-            .then((res) => {
-                setData(res.data);
-                setDays(res.data.map(v => v.day));
-            })
-            .catch(() => {
-                alert("Houve um erro ao carregar o histórico");
-            });
-    }, [token]);
+  useEffect(() => {
+    getHistory(token)
+      .then((res) => {
+        setData(res.data);
+        setDays(res.data.map(v => v.day));
+      })
+      .catch(() => {
+        alert("Houve um erro ao carregar o histórico");
+      });
+  }, [token]);
 
-    function assignColor({date}) {
-        const tileDate = dayjs(date).format("DD/MM/YYYY");
-        const today = dayjs().format("DD/MM/YYYY");
-        
-        if (tileDate !== today && data.some(v => v.day === tileDate)) {
-            if (data[days.indexOf(tileDate)].habits.some(v => v.done === false)) {
-                return "incomplete";
-            }
-            else {
-                return "complete";
-            }
-        }
+  function assignColor({ date }) {
+    const tileDate = dayjs(date).format("DD/MM/YYYY");
+    const today = dayjs().format("DD/MM/YYYY");
+
+    if (tileDate !== today && data.some(v => v.day === tileDate)) {
+      if (data[days.indexOf(tileDate)].habits.some(v => v.done === false)) {
+        return "incomplete";
+      }
+      else {
+        return "complete";
+      }
     }
+  }
 
-    return (
-        <>
-            <MainAuth>
-                <Header />
-                <TitleSection>
-                    <h1>Histórico</h1>
-                </TitleSection>
-                <CalendarContainer>
-                    <Calendar
-                        locale="pt-br"
-                        calendarType="US"
-                        className="calendar"
-                        formatDay={(locale, date) => dayjs(date).format('DD')}
-                        tileClassName={assignColor}
-                    />
-                </CalendarContainer>
-                <Footer />
-            </MainAuth>
-        </>
-    );
+  return (
+    <>
+      <MainAuth>
+        <Header />
+        <TitleSection>
+          <h1>Histórico</h1>
+        </TitleSection>
+        <CalendarContainer>
+          <Calendar
+            locale="pt-br"
+            calendarType="US"
+            className="calendar"
+            formatDay={(locale, date) => dayjs(date).format('DD')}
+            tileClassName={assignColor}
+          />
+        </CalendarContainer>
+        <Footer />
+      </MainAuth>
+    </>
+  );
 }
 
 const CalendarContainer = styled.div`
