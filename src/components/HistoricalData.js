@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MainAuth } from "../common/MainAuth";
 import { TitleSection } from "../common/TitleSection";
@@ -9,12 +10,30 @@ import LoginContext from "../contexts/LoginContext";
 import { getHistory } from "../services/trackit";
 import Footer from "./Footer";
 import Header from "./Header";
+import PastHabit from "./PastHabit";
 
 export default function HistoricalData() {
   const [data, setData] = useState([]);
   const [days, setDays] = useState([]);
+  const [openDay, setOpenDay] = useState({
+    open: false,
+    habits: [],
+    day: "",
+  });
 
   const { token } = useContext(LoginContext);
+
+  const navigate = useNavigate();
+
+  const week = [
+    "Domingo",
+    "Segunda",
+    "Terça",
+    "Quarta",
+    "Quinta",
+    "Sexta",
+    "Sábado",
+  ];
 
   useEffect(() => {
     getHistory(token)
@@ -41,6 +60,24 @@ export default function HistoricalData() {
     }
   }
 
+  function showHabits(value) {
+    const tileDate = dayjs(value).format("DD/MM/YYYY");
+    const today = dayjs().format("DD/MM/YYYY");
+    if (tileDate === today) {
+      navigate("/");
+    }
+    else if (data.some(v => v.day === tileDate)) {
+      setOpenDay({
+        open: true,
+        habits: [...data[days.indexOf(tileDate)].habits],
+        day: data[days.indexOf(tileDate)].day,
+      })
+    }
+    else {
+      return alert("Não haviam hábitos para este dia");
+    }
+  }
+
   return (
     <>
       <MainAuth>
@@ -55,15 +92,30 @@ export default function HistoricalData() {
             className="calendar"
             formatDay={(locale, date) => dayjs(date).format('DD')}
             tileClassName={assignColor}
+            onClickDay={showHabits}
           />
         </CalendarContainer>
+        {openDay.open && (
+          <DaySection>
+            <TitleSection>
+              <h1>{`${week[openDay.habits[0].weekDay]}, ${openDay.day}`}</h1>
+            </TitleSection>
+            {openDay.habits.map((value) =>
+              <PastHabit
+                key={value.id}
+                name={value.name}
+                done={value.done}
+              />
+            )}
+          </DaySection>
+        )}
         <Footer />
       </MainAuth>
     </>
   );
 }
 
-const CalendarContainer = styled.div`
+const CalendarContainer = styled.section`
   margin-top: 12px;
 
   .calendar {
@@ -93,4 +145,11 @@ const CalendarContainer = styled.div`
   .incomplete {
     background-color: #EA5766;
   }
+`;
+
+const DaySection = styled.section`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin-bottom: 40px;
 `;
