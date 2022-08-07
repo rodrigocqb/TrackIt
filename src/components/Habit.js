@@ -2,6 +2,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 import LoginContext from "../contexts/LoginContext";
 import { deleteHabit } from "../services/trackit";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function Habit({
     id,
@@ -36,7 +37,7 @@ export default function Habit({
                 ))}
             </div>
             <IconContainer onClick={removeHabit}>
-                <ion-icon name="trash-outline"></ion-icon>
+              <i className="bi bi-trash"></i>
             </IconContainer>
         </HabitWrapper>
     );
@@ -85,8 +86,8 @@ const IconContainer = styled.div`
   top: 11px;
   right: 10px;
 
-  ion-icon {
+  i {
     color: #666666;
-    font-size: 17px;
+    font-size: 15px;
   }
 `;
