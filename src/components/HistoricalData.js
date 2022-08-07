@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,8 @@ export default function HistoricalData() {
 
   const navigate = useNavigate();
 
+  const scroll = useRef(null);
+
   const week = [
     "Domingo",
     "Segunda",
@@ -39,7 +41,7 @@ export default function HistoricalData() {
     getHistory(token)
       .then((res) => {
         setData(res.data);
-        setDays(res.data.map(v => v.day));
+        setDays(res.data.map((v) => v.day));
       })
       .catch(() => {
         alert("Houve um erro ao carregar o histórico");
@@ -50,11 +52,10 @@ export default function HistoricalData() {
     const tileDate = dayjs(date).format("DD/MM/YYYY");
     const today = dayjs().format("DD/MM/YYYY");
 
-    if (tileDate !== today && data.some(v => v.day === tileDate)) {
-      if (data[days.indexOf(tileDate)].habits.some(v => v.done === false)) {
+    if (tileDate !== today && data.some((v) => v.day === tileDate)) {
+      if (data[days.indexOf(tileDate)].habits.some((v) => v.done === false)) {
         return "incomplete";
-      }
-      else {
+      } else {
         return "complete";
       }
     }
@@ -65,15 +66,16 @@ export default function HistoricalData() {
     const today = dayjs().format("DD/MM/YYYY");
     if (tileDate === today) {
       navigate("/");
-    }
-    else if (data.some(v => v.day === tileDate)) {
+    } else if (data.some((v) => v.day === tileDate)) {
       setOpenDay({
         open: true,
         habits: [...data[days.indexOf(tileDate)].habits],
         day: data[days.indexOf(tileDate)].day,
-      })
-    }
-    else {
+      });
+      setTimeout(() => {
+        scroll.current.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    } else {
       return alert("Não haviam hábitos para este dia");
     }
   }
@@ -90,23 +92,19 @@ export default function HistoricalData() {
             locale="pt-br"
             calendarType="US"
             className="calendar"
-            formatDay={(locale, date) => dayjs(date).format('DD')}
+            formatDay={(locale, date) => dayjs(date).format("DD")}
             tileClassName={assignColor}
             onClickDay={showHabits}
           />
         </CalendarContainer>
         {openDay.open && (
-          <DaySection>
+          <DaySection ref={scroll}>
             <TitleSection>
               <h1>{`${week[openDay.habits[0].weekDay]}, ${openDay.day}`}</h1>
             </TitleSection>
-            {openDay.habits.map((value) =>
-              <PastHabit
-                key={value.id}
-                name={value.name}
-                done={value.done}
-              />
-            )}
+            {openDay.habits.map((value) => (
+              <PastHabit key={value.id} name={value.name} done={value.done} />
+            ))}
           </DaySection>
         )}
         <Footer />
@@ -134,16 +132,17 @@ const CalendarContainer = styled.section`
     padding: 20px 6.6667px;
   }
 
-  .complete, .incomplete {
+  .complete,
+  .incomplete {
     clip-path: circle(35%);
   }
 
   .complete {
-    background-color: #8CC654;
+    background-color: #8cc654;
   }
 
   .incomplete {
-    background-color: #EA5766;
+    background-color: #ea5766;
   }
 `;
 
