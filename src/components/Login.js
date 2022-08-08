@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../img/logo.svg";
@@ -8,6 +8,7 @@ import LoginContext from "../contexts/LoginContext";
 import UserContext from "../contexts/UserContext";
 import { Input } from "../common/Input";
 import { Button } from "../common/Button";
+import { useLocal } from "../hooks/useLocal";
 
 export default function Login() {
     const [form, setForm] = useState({
@@ -16,19 +17,12 @@ export default function Login() {
     });
     const [disabled, setDisabled] = useState(false);
 
+    useLocal();
+    
     const { setToken } = useContext(LoginContext);
     const { setUser } = useContext(UserContext);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const localUser = JSON.parse(localStorage.getItem("user"));
-        if (localUser) {
-            setUser(localUser);
-            setToken(localUser.token);
-            navigate("/hoje");
-        }
-    },[navigate, setToken, setUser])
 
     function handleForm({ value, name }) {
         setForm({
