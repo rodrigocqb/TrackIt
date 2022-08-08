@@ -23,6 +23,7 @@ export default function Habits() {
         days: [],
     });
     const [loadSwitch, setLoadSwitch] = useState(false);
+    const [loaderSpinner, setLoaderSpinner] = useState(true);
 
     const { token } = useContext(LoginContext);
     const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
@@ -34,9 +35,11 @@ export default function Habits() {
         getHabits(token)
             .then((res) => {
                 setUserHabits(res.data);
+                setLoaderSpinner(false);
             })
             .catch(() => {
                 alert("Houve um erro ao carregar os hábitos");
+                setLoaderSpinner(false);
             });
     }, [token, loadSwitch]);
 
@@ -152,28 +155,37 @@ export default function Habits() {
                         </div>
                     </FormSection>
                 )}
-                <HabitsSection>
-                    {userHabits.length === 0 ? (
-                        <span>
-                            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
-                            para começar a trackear!
-                        </span>
-                    ) : (
-                        <HabitsContainer>
-                            {userHabits.map((value) => (
-                                <Habit
-                                    id={value.id}
-                                    name={value.name}
-                                    days={value.days}
-                                    weekdays={weekdays}
-                                    key={value.id}
-                                    loadSwitch={loadSwitch}
-                                    setLoadSwitch={setLoadSwitch}
-                                />
-                            ))}
-                        </HabitsContainer>
-                    )}
-                </HabitsSection>
+                {loaderSpinner ? (
+                    <ThreeDots
+                        height="80"
+                        width="80"
+                        color="#52b6ff"
+                        ariaLabel="three-dots-loading"
+                    />
+                ) : (
+                    <HabitsSection>
+                        {userHabits.length === 0 ? (
+                            <span>
+                                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
+                                para começar a trackear!
+                            </span>
+                        ) : (
+                            <HabitsContainer>
+                                {userHabits.map((value) => (
+                                    <Habit
+                                        id={value.id}
+                                        name={value.name}
+                                        days={value.days}
+                                        weekdays={weekdays}
+                                        key={value.id}
+                                        loadSwitch={loadSwitch}
+                                        setLoadSwitch={setLoadSwitch}
+                                    />
+                                ))}
+                            </HabitsContainer>
+                        )}
+                    </HabitsSection>
+                )}
             </MainAuth>
             <Footer />
         </>

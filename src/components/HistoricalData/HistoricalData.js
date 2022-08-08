@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useContext, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MainAuth } from "../../common/MainAuth";
@@ -20,6 +21,7 @@ export default function HistoricalData() {
     habits: [],
     day: "",
   });
+  const [loader, setLoader] = useState(true);
 
   const { token } = useContext(LoginContext);
 
@@ -42,9 +44,11 @@ export default function HistoricalData() {
       .then((res) => {
         setData(res.data);
         setDays(res.data.map((v) => v.day));
+        setLoader(false);
       })
       .catch(() => {
         alert("Houve um erro ao carregar o histórico");
+        setLoader(false);
       });
   }, [token]);
 
@@ -88,14 +92,22 @@ export default function HistoricalData() {
           <h1>Histórico</h1>
         </TitleSection>
         <CalendarContainer>
-          <Calendar
-            locale="pt-br"
-            calendarType="US"
-            className="calendar"
-            formatDay={(locale, date) => dayjs(date).format("DD")}
-            tileClassName={assignColor}
-            onClickDay={showHabits}
-          />
+          {loader ?
+            <ThreeDots
+              height="80"
+              width="80"
+              color="#52b6ff"
+              ariaLabel="three-dots-loading"
+            /> :
+            <Calendar
+              locale="pt-br"
+              calendarType="US"
+              className="calendar"
+              formatDay={(locale, date) => dayjs(date).format("DD")}
+              tileClassName={assignColor}
+              onClickDay={showHabits}
+            />
+          }
         </CalendarContainer>
         {openDay.open && (
           <DaySection ref={scroll}>
