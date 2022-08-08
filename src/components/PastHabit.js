@@ -9,7 +9,7 @@ export default function PastHabit({ name, done, }) {
                 <h2>{name}</h2>
             </div>
             <IconContainer done={done}>
-              <i class="bi bi-check"></i>
+              <i className="bi bi-check"></i>
             </IconContainer>
         </Wrapper>
     );

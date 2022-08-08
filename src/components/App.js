@@ -15,12 +15,17 @@ function App() {
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [todayDone, setTodayDone] = useState({
+    doneIds: [],
+    numberDone: 0,
+    numberTotal: 0,
+  });
 
   return (
     <BrowserRouter>
       <LoginContext.Provider value={{ token, setToken }}>
         <UserContext.Provider value={{ user, setUser }}>
-          <ProgressContext.Provider value={{ progress, setProgress }}>
+          <ProgressContext.Provider value={{ progress, setProgress, todayDone, setTodayDone }}>
             <GlobalStyle />
             <Routes>
               <Route path="/" element={<Login />} />

@@ -79,7 +79,7 @@ export default function TodayHabit({
                 </div>
             </div>
             <IconContainer done={done} onClick={checkHabit}>
-                <i class="bi bi-check"></i>
+                <i className="bi bi-check"></i>
             </IconContainer>
         </Wrapper>
     );

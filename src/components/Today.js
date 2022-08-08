@@ -17,7 +17,7 @@ export default function Today() {
     const [loadSwitch, setLoadSwitch] = useState(false);
 
     const { token } = useContext(LoginContext);
-    const { progress, setProgress } = useContext(ProgressContext);
+    const { progress, setProgress, setTodayDone } = useContext(ProgressContext);
 
     dayjs.extend(updateLocale);
     dayjs.updateLocale("pt-br", {
@@ -45,6 +45,11 @@ export default function Today() {
                         100
                     )
                 );
+                setTodayDone({
+                    doneIds: res.data.filter((value) => value.done === true).map((v) => v.id),
+                    numberDone: res.data.filter((value) => value.done === true).length,
+                    numberTotal: res.data.length,
+                });
             })
             .catch(() => {
                 alert("Houve um erro ao carregar seus hábitos de hoje");

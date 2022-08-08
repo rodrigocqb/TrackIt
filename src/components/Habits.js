@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useContext, useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import styled from "styled-components";
@@ -6,6 +7,7 @@ import { Input } from "../common/Input";
 import { MainAuth } from "../common/MainAuth";
 import { TitleSection } from "../common/TitleSection";
 import LoginContext from "../contexts/LoginContext";
+import ProgressContext from "../contexts/ProgressContext";
 import { getHabits, postHabit } from "../services/trackit";
 import DayButton from "./DayButton";
 import Footer from "./Footer";
@@ -23,8 +25,10 @@ export default function Habits() {
     const [loadSwitch, setLoadSwitch] = useState(false);
 
     const { token } = useContext(LoginContext);
+    const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
 
     const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const today = dayjs().format("d");
 
     useEffect(() => {
         getHabits(token)
@@ -64,6 +68,17 @@ export default function Habits() {
 
         postHabit(body, token)
             .then(() => {
+                if (body.days.includes(Number(today))) {
+                    setProgress(
+                        Math.round(
+                            (todayDone.numberDone / (todayDone.numberTotal + 1)) * 100
+                        )
+                    );
+                    setTodayDone({
+                        ...todayDone,
+                        numberTotal: todayDone.numberTotal + 1,
+                    })
+                }
                 setNewHabit({
                     habit: "",
                     open: false,
@@ -145,7 +160,7 @@ export default function Habits() {
                         </span>
                     ) : (
                         <HabitsContainer>
-                            {userHabits.map((value) => 
+                            {userHabits.map((value) => (
                                 <Habit
                                     id={value.id}
                                     name={value.name}
@@ -155,7 +170,7 @@ export default function Habits() {
                                     loadSwitch={loadSwitch}
                                     setLoadSwitch={setLoadSwitch}
                                 />
-                            )}
+                            ))}
                         </HabitsContainer>
                     )}
                 </HabitsSection>
@@ -189,9 +204,9 @@ const HabitsSection = styled.section`
 `;
 
 const HabitsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 `;
 
 const FormSection = styled.section`

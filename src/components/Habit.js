@@ -3,44 +3,74 @@ import styled from "styled-components";
 import LoginContext from "../contexts/LoginContext";
 import { deleteHabit } from "../services/trackit";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import dayjs from "dayjs";
+import ProgressContext from "../contexts/ProgressContext";
 
 export default function Habit({
-    id,
-    name,
-    days,
-    weekdays,
-    loadSwitch,
-    setLoadSwitch,
+  id,
+  name,
+  days,
+  weekdays,
+  loadSwitch,
+  setLoadSwitch,
 }) {
-    const { token } = useContext(LoginContext);
+  const { token } = useContext(LoginContext);
+  const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
 
-    function removeHabit() {
-        if (window.confirm("Tem certeza que deseja deletar este hábito?")) {
-            deleteHabit(id, token)
-                .then(() => {
-                    setLoadSwitch(!loadSwitch);
-                })
-                .catch(() => {
-                    alert("Houve um erro ao tentar deletar o hábito");
-                });
-        }
+  const today = dayjs().format("d");
+
+  function removeHabit() {
+    if (window.confirm("Tem certeza que deseja deletar este hábito?")) {
+      deleteHabit(id, token)
+        .then(() => {
+          if (days.includes(Number(today))) {
+            if (todayDone.doneIds.includes(id)) {
+              setProgress(
+                Math.round(
+                  ((todayDone.numberDone - 1) / (todayDone.numberTotal - 1)) * 100
+                )
+              );
+              setTodayDone({
+                ...todayDone,
+                numberTotal: todayDone.numberTotal - 1,
+                numberDone: todayDone.numberDone - 1,
+              })
+            }
+            else {
+              setProgress(
+                Math.round(
+                  (todayDone.numberDone / (todayDone.numberTotal - 1)) * 100
+                )
+              );
+              setTodayDone({
+                ...todayDone,
+                numberTotal: todayDone.numberTotal - 1,
+              })
+            }
+          }
+          setLoadSwitch(!loadSwitch);
+        })
+        .catch(() => {
+          alert("Houve um erro ao tentar deletar o hábito");
+        });
     }
+  }
 
-    return (
-        <HabitWrapper>
-            <p>{name}</p>
-            <div>
-                {weekdays.map((value, index) => (
-                    <Day active={days.includes(index)} key={index}>
-                        {value}
-                    </Day>
-                ))}
-            </div>
-            <TrashContainer onClick={removeHabit}>
-              <i className="bi bi-trash"></i>
-            </TrashContainer>
-        </HabitWrapper>
-    );
+  return (
+    <HabitWrapper>
+      <p>{name}</p>
+      <div>
+        {weekdays.map((value, index) => (
+          <Day active={days.includes(index)} key={index}>
+            {value}
+          </Day>
+        ))}
+      </div>
+      <TrashContainer onClick={removeHabit}>
+        <i className="bi bi-trash"></i>
+      </TrashContainer>
+    </HabitWrapper>
+  );
 }
 
 const HabitWrapper = styled.div`
