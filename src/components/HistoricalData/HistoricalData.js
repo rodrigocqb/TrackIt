@@ -50,7 +50,7 @@ export default function HistoricalData() {
         alert("Houve um erro ao carregar o histórico");
         setLoader(false);
       });
-  }, [token]);
+  }, [token, setLoader]);
 
   function assignColor({ date }) {
     const tileDate = dayjs(date).format("DD/MM/YYYY");

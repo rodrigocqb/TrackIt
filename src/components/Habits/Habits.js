@@ -41,7 +41,7 @@ export default function Habits() {
                 alert("Houve um erro ao carregar os hábitos");
                 setLoaderSpinner(false);
             });
-    }, [token, loadSwitch]);
+    }, [token, loadSwitch, setLoaderSpinner]);
 
     function handleNewHabit({ value, name }) {
         setNewHabit({

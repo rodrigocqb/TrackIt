@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import LoginContext from "../../contexts/LoginContext";
 import { deleteHabit } from "../../services/trackit";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import dayjs from "dayjs";
 import ProgressContext from "../../contexts/ProgressContext";
+import { Oval } from "react-loader-spinner";
 
 export default function Habit({
   id,
@@ -14,6 +15,8 @@ export default function Habit({
   loadSwitch,
   setLoadSwitch,
 }) {
+  const [deleteLoader, setDeleteLoader] = useState(false);
+
   const { token } = useContext(LoginContext);
   const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
 
@@ -21,6 +24,7 @@ export default function Habit({
 
   function removeHabit() {
     if (window.confirm("Tem certeza que deseja deletar este hábito?")) {
+      setDeleteLoader(true);
       deleteHabit(id, token)
         .then(() => {
           if (days.includes(Number(today))) {
@@ -52,6 +56,7 @@ export default function Habit({
         })
         .catch(() => {
           alert("Houve um erro ao tentar deletar o hábito");
+          setDeleteLoader(false);
         });
     }
   }
@@ -67,7 +72,14 @@ export default function Habit({
         ))}
       </div>
       <TrashContainer onClick={removeHabit}>
-        <i className="bi bi-trash"></i>
+        {!deleteLoader ?
+          <i className="bi bi-trash"></i> :
+          <Oval
+            height="17"
+            width="17"
+            color="#666666"
+            ariaLabel="three-dots-loading"
+          />}
       </TrashContainer>
     </HabitWrapper>
   );

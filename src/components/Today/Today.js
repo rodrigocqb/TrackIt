@@ -60,7 +60,7 @@ export default function Today() {
                 alert("Houve um erro ao carregar seus hábitos de hoje");
                 setLoaderSpinner(false);
             });
-    }, [token, loadSwitch, setProgress, setTodayDone]);
+    }, [token, loadSwitch, setProgress, setTodayDone, setLoaderSpinner]);
 
     return (
         <>
