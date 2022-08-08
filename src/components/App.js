@@ -4,12 +4,12 @@ import LoginContext from "../contexts/LoginContext";
 import ProgressContext from "../contexts/ProgressContext";
 import UserContext from "../contexts/UserContext";
 import GlobalStyle from "../style/globalStyle";
-import Habits from "./Habits";
-import HistoricalData from "./HistoricalData";
+import Habits from "./Habits/Habits";
+import HistoricalData from "./HistoricalData/HistoricalData";
 import Login from "./Login";
 import PrivatePage from "./PrivatePage";
 import SignUp from "./SignUp";
-import Today from "./Today";
+import Today from "./Today/Today";
 
 function App() {
   const [token, setToken] = useState("");

@@ -4,12 +4,12 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { MainAuth } from "../common/MainAuth";
-import { TitleSection } from "../common/TitleSection";
-import LoginContext from "../contexts/LoginContext";
-import { getHistory } from "../services/trackit";
-import Footer from "./Footer";
-import Header from "./Header";
+import { MainAuth } from "../../common/MainAuth";
+import { TitleSection } from "../../common/TitleSection";
+import LoginContext from "../../contexts/LoginContext";
+import { getHistory } from "../../services/trackit";
+import Footer from "../Footer";
+import Header from "../Header";
 import PastHabit from "./PastHabit";
 
 export default function HistoricalData() {
@@ -115,6 +115,8 @@ export default function HistoricalData() {
 
 const CalendarContainer = styled.section`
   margin-top: 12px;
+  display: flex;
+  justify-content: center;
 
   .calendar {
     border: 0px;

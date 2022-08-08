@@ -2,17 +2,17 @@ import dayjs from "dayjs";
 import { useContext, useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import styled from "styled-components";
-import { Button } from "../common/Button";
-import { Input } from "../common/Input";
-import { MainAuth } from "../common/MainAuth";
-import { TitleSection } from "../common/TitleSection";
-import LoginContext from "../contexts/LoginContext";
-import ProgressContext from "../contexts/ProgressContext";
-import { getHabits, postHabit } from "../services/trackit";
+import { Button } from "../../common/Button";
+import { Input } from "../../common/Input";
+import { MainAuth } from "../../common/MainAuth";
+import { TitleSection } from "../../common/TitleSection";
+import LoginContext from "../../contexts/LoginContext";
+import ProgressContext from "../../contexts/ProgressContext";
+import { getHabits, postHabit } from "../../services/trackit";
 import DayButton from "./DayButton";
-import Footer from "./Footer";
+import Footer from "../Footer";
 import Habit from "./Habit";
-import Header from "./Header";
+import Header from "../Header";
 
 export default function Habits() {
     const [userHabits, setUserHabits] = useState([]);

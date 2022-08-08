@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import LoginContext from "../contexts/LoginContext";
-import { deleteHabit } from "../services/trackit";
+import LoginContext from "../../contexts/LoginContext";
+import { deleteHabit } from "../../services/trackit";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import dayjs from "dayjs";
-import ProgressContext from "../contexts/ProgressContext";
+import ProgressContext from "../../contexts/ProgressContext";
 
 export default function Habit({
   id,

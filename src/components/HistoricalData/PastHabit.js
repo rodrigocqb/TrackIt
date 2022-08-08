@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { IconContainer } from "./TodayHabit";
+import { IconContainer } from "../Today/TodayHabit";
 
 export default function PastHabit({ name, done, }) {
     return (

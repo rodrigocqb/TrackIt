@@ -3,13 +3,13 @@ import "dayjs/locale/pt-br";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { MainAuth } from "../common/MainAuth";
-import { TitleSection } from "../common/TitleSection";
-import LoginContext from "../contexts/LoginContext";
-import ProgressContext from "../contexts/ProgressContext";
-import { getHabitsToday } from "../services/trackit";
-import Footer from "./Footer";
-import Header from "./Header";
+import { MainAuth } from "../../common/MainAuth";
+import { TitleSection } from "../../common/TitleSection";
+import LoginContext from "../../contexts/LoginContext";
+import ProgressContext from "../../contexts/ProgressContext";
+import { getHabitsToday } from "../../services/trackit";
+import Footer from "../Footer";
+import Header from "../Header";
 import TodayHabit from "./TodayHabit";
 
 export default function Today() {

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { postCheck, postUncheck } from "../services/trackit";
+import { postCheck, postUncheck } from "../../services/trackit";
 import { useContext } from "react";
-import LoginContext from "../contexts/LoginContext";
+import LoginContext from "../../contexts/LoginContext";
 
 export default function TodayHabit({
     id,
