@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { postCheck, postUncheck } from "../../services/trackit";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import LoginContext from "../../contexts/LoginContext";
+import { Grid } from "react-loader-spinner";
 
 export default function TodayHabit({
     id,
@@ -13,24 +14,31 @@ export default function TodayHabit({
     loadSwitch,
     setLoadSwitch,
 }) {
+    const [checkLoader, setCheckLoader] = useState(false);
+
     const { token } = useContext(LoginContext);
 
     function checkHabit() {
+        setCheckLoader(true);
         if (done) {
             postUncheck(id, token)
                 .then(() => {
+                    setCheckLoader(false);
                     setLoadSwitch(!loadSwitch);
                 })
                 .catch(() => {
                     alert("Houve um erro ao desmarcar seu hábito");
+                    setCheckLoader(false);
                 });
         } else {
             postCheck(id, token)
                 .then(() => {
+                    setCheckLoader(false);
                     setLoadSwitch(!loadSwitch);
                 })
                 .catch(() => {
                     alert("Houve um erro ao marcar seu hábito");
+                    setCheckLoader(false);
                 });
         }
     }
@@ -79,7 +87,18 @@ export default function TodayHabit({
                 </div>
             </div>
             <IconContainer done={done} onClick={checkHabit}>
-                <i className="bi bi-check"></i>
+                {!checkLoader ? (
+                    <i className="bi bi-check"></i>
+                ) : (
+                    <LoaderContainer>
+                        <Grid
+                            height="50"
+                            width="50"
+                            color="#FFFFFF"
+                            ariaLabel="three-dots-loading"
+                        />
+                    </LoaderContainer>
+                )}
             </IconContainer>
         </Wrapper>
     );
@@ -117,7 +136,7 @@ const Wrapper = styled.div`
 
   i {
     font-size: 69px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
@@ -135,9 +154,17 @@ const RecordSpan = styled.span`
 `;
 
 export const IconContainer = styled.div`
-    width: 69px;
-    height: 69px;
-    background-color: ${(props) => (props.done ? "#8FC549" : "#EBEBEB")};
-    border-radius: 5px;
-    border: 1px solid ${(props) => (props.done ? "#8FC549" : "#E7E7E7")};;
+  width: 69px;
+  height: 69px;
+  background-color: ${(props) => (props.done ? "#8FC549" : "#EBEBEB")};
+  border-radius: 5px;
+  border: 1px solid ${(props) => (props.done ? "#8FC549" : "#E7E7E7")}; ;
+`;
+
+const LoaderContainer = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
