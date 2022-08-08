@@ -78,9 +78,9 @@ export default function TodayHabit({
                     </span>
                 </div>
             </div>
-            <div onClick={checkHabit}>
-                <i className="bi bi-check-square-fill"></i>
-            </div>
+            <IconContainer done={done} onClick={checkHabit}>
+                <i class="bi bi-check"></i>
+            </IconContainer>
         </Wrapper>
     );
 }
@@ -117,7 +117,7 @@ const Wrapper = styled.div`
 
   i {
     font-size: 69px;
-    color: ${(props) => (props.done ? "#8FC549" : "#E7E7E7")};
+    color: #FFFFFF;
   }
 `;
 
@@ -132,4 +132,12 @@ const RecordSpan = styled.span`
         }
         return "#666666";
     }};
+`;
+
+export const IconContainer = styled.div`
+    width: 69px;
+    height: 69px;
+    background-color: ${(props) => (props.done ? "#8FC549" : "#EBEBEB")};
+    border-radius: 5px;
+    border: 1px solid ${(props) => (props.done ? "#8FC549" : "#E7E7E7")};;
 `;

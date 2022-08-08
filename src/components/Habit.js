@@ -36,9 +36,9 @@ export default function Habit({
                     </Day>
                 ))}
             </div>
-            <IconContainer onClick={removeHabit}>
+            <TrashContainer onClick={removeHabit}>
               <i className="bi bi-trash"></i>
-            </IconContainer>
+            </TrashContainer>
         </HabitWrapper>
     );
 }
@@ -78,7 +78,7 @@ const Day = styled.div`
   align-items: center;
 `;
 
-const IconContainer = styled.div`
+const TrashContainer = styled.div`
   width: 17px;
   height: 17px;
   position: absolute;

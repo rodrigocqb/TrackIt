@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { IconContainer } from "./TodayHabit";
 
 export default function PastHabit({ name, done, }) {
     return (
-        <Wrapper done={done}>
+        <Wrapper>
             <div>
                 <h2>{name}</h2>
             </div>
-            <div>
-                <i className="bi bi-check-square-fill"></i>
-            </div>
+            <IconContainer done={done}>
+              <i class="bi bi-check"></i>
+            </IconContainer>
         </Wrapper>
     );
 }
@@ -37,6 +38,6 @@ const Wrapper = styled.div`
 
   i {
     font-size: 69px;
-    color: ${(props) => (props.done ? "#8FC549" : "#E7E7E7")};
+    color: #FFFFFF;
   }
 `;
