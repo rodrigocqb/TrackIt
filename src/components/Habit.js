@@ -34,7 +34,7 @@ export default function Habit({
                 ...todayDone,
                 numberTotal: todayDone.numberTotal - 1,
                 numberDone: todayDone.numberDone - 1,
-              })
+              });
             }
             else {
               setProgress(
@@ -45,7 +45,7 @@ export default function Habit({
               setTodayDone({
                 ...todayDone,
                 numberTotal: todayDone.numberTotal - 1,
-              })
+              });
             }
           }
           setLoadSwitch(!loadSwitch);

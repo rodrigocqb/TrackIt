@@ -77,7 +77,7 @@ export default function Habits() {
                     setTodayDone({
                         ...todayDone,
                         numberTotal: todayDone.numberTotal + 1,
-                    })
+                    });
                 }
                 setNewHabit({
                     habit: "",

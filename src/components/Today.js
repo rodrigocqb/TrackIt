@@ -54,7 +54,7 @@ export default function Today() {
             .catch(() => {
                 alert("Houve um erro ao carregar seus hábitos de hoje");
             });
-    }, [token, loadSwitch, setProgress]);
+    }, [token, loadSwitch, setProgress, setTodayDone]);
 
     return (
         <>
