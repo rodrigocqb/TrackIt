@@ -9,6 +9,7 @@ import UserContext from "../contexts/UserContext";
 import { Input } from "../common/Input";
 import { Button } from "../common/Button";
 import { useLocal } from "../hooks/useLocal";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function Login() {
     const [form, setForm] = useState({
@@ -16,9 +17,10 @@ export default function Login() {
         password: "",
     });
     const [disabled, setDisabled] = useState(false);
+    const [showPW, setShowPW] = useState(false);
 
     useLocal();
-    
+
     const { setToken } = useContext(LoginContext);
     const { setUser } = useContext(UserContext);
 
@@ -47,6 +49,10 @@ export default function Login() {
             });
     }
 
+    function togglePassword() {
+        setShowPW(!showPW);
+    }
+
     return (
         <main>
             <MainLogo src={Logo} alt="" />
@@ -64,19 +70,22 @@ export default function Login() {
                     disabled={disabled}
                     required
                 ></Input>
-                <Input
-                    type="password"
-                    placeholder="senha"
-                    name="password"
-                    onChange={(e) =>
-                        handleForm({
-                            name: e.target.name,
-                            value: e.target.value,
-                        })
-                    }
-                    disabled={disabled}
-                    required
-                ></Input>
+                <PasswordWrapper>
+                    <Input
+                        type={showPW ? "text" : "password"}
+                        placeholder="senha"
+                        name="password"
+                        onChange={(e) =>
+                            handleForm({
+                                name: e.target.name,
+                                value: e.target.value,
+                            })
+                        }
+                        disabled={disabled}
+                        required
+                    ></Input>
+                    <i className={showPW ? "bi bi-eye-slash-fill" : "bi bi-eye-fill"} onClick={togglePassword}></i>
+                </PasswordWrapper>
                 <Button type="submit" disabled={disabled}>
                     {disabled ? (
                         <ThreeDots
@@ -121,4 +130,19 @@ export const FormWrapper = styled.form`
   flex-direction: column;
   row-gap: 6px;
   margin-bottom: 25px;
+`;
+
+const PasswordWrapper = styled.div`
+    width: 100%;
+    height: 45px;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    i {
+        position: absolute;
+        right: 10px;
+        font-size: 30px;
+        color: #666666;
+    }
 `;
