@@ -51,6 +51,9 @@ export default function Habits() {
     }
 
     function showHabitForm() {
+        if (newHabit.open && disabled) {
+            return;
+        }
         setDisabled(false);
         setNewHabit({
             ...newHabit,
