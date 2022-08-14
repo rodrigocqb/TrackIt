@@ -15,184 +15,184 @@ import Habit from "./Habit";
 import Header from "../Header";
 
 export default function Habits() {
-    const [userHabits, setUserHabits] = useState([]);
-    const [disabled, setDisabled] = useState(false);
-    const [newHabit, setNewHabit] = useState({
-        habit: "",
-        open: false,
-        days: [],
+  const [userHabits, setUserHabits] = useState([]);
+  const [disabled, setDisabled] = useState(false);
+  const [newHabit, setNewHabit] = useState({
+    habit: "",
+    open: false,
+    days: [],
+  });
+  const [loadSwitch, setLoadSwitch] = useState(false);
+  const [loaderSpinner, setLoaderSpinner] = useState(true);
+
+  const { token } = useContext(LoginContext);
+  const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
+
+  const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
+  const today = dayjs().format("d");
+
+  useEffect(() => {
+    getHabits(token)
+      .then((res) => {
+        setUserHabits(res.data);
+        setLoaderSpinner(false);
+      })
+      .catch(() => {
+        alert("Houve um erro ao carregar os hábitos");
+        setLoaderSpinner(false);
+      });
+  }, [token, loadSwitch, setLoaderSpinner]);
+
+  function handleNewHabit({ value, name }) {
+    setNewHabit({
+      ...newHabit,
+      [name]: value,
     });
-    const [loadSwitch, setLoadSwitch] = useState(false);
-    const [loaderSpinner, setLoaderSpinner] = useState(true);
+  }
 
-    const { token } = useContext(LoginContext);
-    const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
+  function showHabitForm() {
+    if (newHabit.open && disabled) {
+      return;
+    }
+    setDisabled(false);
+    setNewHabit({
+      ...newHabit,
+      open: !newHabit.open,
+    });
+  }
 
-    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
-    const today = dayjs().format("d");
-
-    useEffect(() => {
-        getHabits(token)
-            .then((res) => {
-                setUserHabits(res.data);
-                setLoaderSpinner(false);
-            })
-            .catch(() => {
-                alert("Houve um erro ao carregar os hábitos");
-                setLoaderSpinner(false);
-            });
-    }, [token, loadSwitch, setLoaderSpinner]);
-
-    function handleNewHabit({ value, name }) {
-        setNewHabit({
-            ...newHabit,
-            [name]: value,
-        });
+  function createHabit() {
+    if (newHabit.days.length === 0) {
+      return alert("Selecione pelo menos um dia para o seu hábito!");
     }
 
-    function showHabitForm() {
-        if (newHabit.open && disabled) {
-            return;
+    setDisabled(true);
+    const body = {
+      name: newHabit.habit,
+      days: newHabit.days,
+    };
+
+    postHabit(body, token)
+      .then(() => {
+        if (body.days.includes(Number(today))) {
+          setProgress(
+            Math.round(
+              (todayDone.numberDone / (todayDone.numberTotal + 1)) * 100
+            )
+          );
+          setTodayDone({
+            ...todayDone,
+            numberTotal: todayDone.numberTotal + 1,
+          });
         }
+        setNewHabit({
+          habit: "",
+          open: false,
+          days: [],
+        });
+        setLoadSwitch(!loadSwitch);
+      })
+      .catch(() => {
+        alert("Insira dados válidos!");
         setDisabled(false);
-        setNewHabit({
-            ...newHabit,
-            open: !newHabit.open,
-        });
-    }
+      });
+  }
 
-    function createHabit() {
-        if (newHabit.days.length === 0) {
-            return alert("Selecione pelo menos um dia para o seu hábito!");
-        }
-
-        setDisabled(true);
-        const body = {
-            name: newHabit.habit,
-            days: newHabit.days,
-        };
-
-        postHabit(body, token)
-            .then(() => {
-                if (body.days.includes(Number(today))) {
-                    setProgress(
-                        Math.round(
-                            (todayDone.numberDone / (todayDone.numberTotal + 1)) * 100
-                        )
-                    );
-                    setTodayDone({
-                        ...todayDone,
-                        numberTotal: todayDone.numberTotal + 1,
-                    });
-                }
-                setNewHabit({
-                    habit: "",
-                    open: false,
-                    days: [],
-                });
-                setLoadSwitch(!loadSwitch);
-            })
-            .catch(() => {
-                alert("Insira dados válidos!");
-                setDisabled(false);
-            });
-    }
-
-    return (
-        <>
-            <Header />
-            <MainAuth>
-                <TitleSection Button={true}>
-                    <h1>Meus hábitos</h1>
-                    <AddButton onClick={showHabitForm}>+</AddButton>
-                </TitleSection>
-                {newHabit.open && (
-                    <FormSection>
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="nome do hábito"
-                                name="habit"
-                                value={newHabit.habit}
-                                onChange={(e) => {
-                                    handleNewHabit({
-                                        name: e.target.name,
-                                        value: e.target.value,
-                                    });
-                                }}
-                                disabled={disabled}
-                                required
-                            ></Input>
-                            <DaysContainer>
-                                {weekdays.map((value, index) => (
-                                    <DayButton
-                                        key={index}
-                                        id={index}
-                                        disabled={disabled}
-                                        newHabit={newHabit}
-                                        setNewHabit={setNewHabit}
-                                    >
-                                        {value}
-                                    </DayButton>
-                                ))}
-                            </DaysContainer>
-                            <FormBottom>
-                                <p onClick={showHabitForm}>Cancelar</p>
-                                <SaveButton
-                                    type="submit"
-                                    disabled={disabled}
-                                    onClick={createHabit}
-                                >
-                                    {disabled ? (
-                                        <ThreeDots
-                                            height="13"
-                                            width="51"
-                                            color="#FFFFFF"
-                                            ariaLabel="three-dots-loading"
-                                        />
-                                    ) : (
-                                        <span>Salvar</span>
-                                    )}
-                                </SaveButton>
-                            </FormBottom>
-                        </div>
-                    </FormSection>
-                )}
-                {loaderSpinner ? (
+  return (
+    <>
+      <Header />
+      <MainAuth>
+        <TitleSection Button={true}>
+          <h1>Meus hábitos</h1>
+          <AddButton onClick={showHabitForm}>+</AddButton>
+        </TitleSection>
+        {newHabit.open && (
+          <FormSection>
+            <div>
+              <Input
+                type="text"
+                placeholder="nome do hábito"
+                name="habit"
+                value={newHabit.habit}
+                onChange={(e) => {
+                  handleNewHabit({
+                    name: e.target.name,
+                    value: e.target.value,
+                  });
+                }}
+                disabled={disabled}
+                required
+              ></Input>
+              <DaysContainer>
+                {weekdays.map((value, index) => (
+                  <DayButton
+                    key={index}
+                    id={index}
+                    disabled={disabled}
+                    newHabit={newHabit}
+                    setNewHabit={setNewHabit}
+                  >
+                    {value}
+                  </DayButton>
+                ))}
+              </DaysContainer>
+              <FormBottom>
+                <p onClick={showHabitForm}>Cancelar</p>
+                <SaveButton
+                  type="submit"
+                  disabled={disabled}
+                  onClick={createHabit}
+                >
+                  {disabled ? (
                     <ThreeDots
-                        height="80"
-                        width="80"
-                        color="#52b6ff"
-                        ariaLabel="three-dots-loading"
+                      height="13"
+                      width="51"
+                      color="#FFFFFF"
+                      ariaLabel="three-dots-loading"
                     />
-                ) : (
-                    <HabitsSection>
-                        {userHabits.length === 0 ? (
-                            <span>
-                                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
-                                para começar a trackear!
-                            </span>
-                        ) : (
-                            <HabitsContainer>
-                                {userHabits.map((value) => (
-                                    <Habit
-                                        id={value.id}
-                                        name={value.name}
-                                        days={value.days}
-                                        weekdays={weekdays}
-                                        key={value.id}
-                                        loadSwitch={loadSwitch}
-                                        setLoadSwitch={setLoadSwitch}
-                                    />
-                                ))}
-                            </HabitsContainer>
-                        )}
-                    </HabitsSection>
-                )}
-            </MainAuth>
-            <Footer />
-        </>
-    );
+                  ) : (
+                    <span>Salvar</span>
+                  )}
+                </SaveButton>
+              </FormBottom>
+            </div>
+          </FormSection>
+        )}
+        {loaderSpinner ? (
+          <ThreeDots
+            height="80"
+            width="80"
+            color="#52b6ff"
+            ariaLabel="three-dots-loading"
+          />
+        ) : (
+          <HabitsSection>
+            {userHabits.length === 0 ? (
+              <span>
+                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
+                para começar a trackear!
+              </span>
+            ) : (
+              <HabitsContainer>
+                {userHabits.map((value) => (
+                  <Habit
+                    id={value.id}
+                    name={value.name}
+                    days={value.days}
+                    weekdays={weekdays}
+                    key={value.id}
+                    loadSwitch={loadSwitch}
+                    setLoadSwitch={setLoadSwitch}
+                  />
+                ))}
+              </HabitsContainer>
+            )}
+          </HabitsSection>
+        )}
+      </MainAuth>
+      <Footer />
+    </>
+  );
 }
 
 const AddButton = styled.div`

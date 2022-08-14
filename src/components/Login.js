@@ -12,98 +12,101 @@ import { useLocal } from "../hooks/useLocal";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function Login() {
-    const [form, setForm] = useState({
-        email: "",
-        password: "",
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [disabled, setDisabled] = useState(false);
+  const [showPW, setShowPW] = useState(false);
+
+  useLocal();
+
+  const { setToken } = useContext(LoginContext);
+  const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  function handleForm({ value, name }) {
+    setForm({
+      ...form,
+      [name]: value,
     });
-    const [disabled, setDisabled] = useState(false);
-    const [showPW, setShowPW] = useState(false);
+  }
 
-    useLocal();
+  function handleSubmit(e) {
+    e.preventDefault();
+    setDisabled(true);
+    postLogin(form)
+      .then((res) => {
+        setUser(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setToken(res.data.token);
+        navigate("/hoje");
+      })
+      .catch(() => {
+        alert("Houve um erro no seu login.");
+        setDisabled(false);
+      });
+  }
 
-    const { setToken } = useContext(LoginContext);
-    const { setUser } = useContext(UserContext);
+  function togglePassword() {
+    setShowPW(!showPW);
+  }
 
-    const navigate = useNavigate();
-
-    function handleForm({ value, name }) {
-        setForm({
-            ...form,
-            [name]: value,
-        });
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        setDisabled(true);
-        postLogin(form)
-            .then((res) => {
-                setUser(res.data);
-                localStorage.setItem("user", JSON.stringify(res.data));
-                setToken(res.data.token);
-                navigate("/hoje");
+  return (
+    <main>
+      <MainLogo src={Logo} alt="" />
+      <FormWrapper onSubmit={handleSubmit}>
+        <Input
+          type="email"
+          placeholder="email"
+          name="email"
+          onChange={(e) =>
+            handleForm({
+              name: e.target.name,
+              value: e.target.value,
             })
-            .catch(() => {
-                alert("Houve um erro no seu login.");
-                setDisabled(false);
-            });
-    }
-
-    function togglePassword() {
-        setShowPW(!showPW);
-    }
-
-    return (
-        <main>
-            <MainLogo src={Logo} alt="" />
-            <FormWrapper onSubmit={handleSubmit}>
-                <Input
-                    type="email"
-                    placeholder="email"
-                    name="email"
-                    onChange={(e) =>
-                        handleForm({
-                            name: e.target.name,
-                            value: e.target.value,
-                        })
-                    }
-                    disabled={disabled}
-                    required
-                ></Input>
-                <PasswordWrapper>
-                    <Input
-                        type={showPW ? "text" : "password"}
-                        placeholder="senha"
-                        name="password"
-                        onChange={(e) =>
-                            handleForm({
-                                name: e.target.name,
-                                value: e.target.value,
-                            })
-                        }
-                        disabled={disabled}
-                        required
-                    ></Input>
-                    <i className={showPW ? "bi bi-eye-slash-fill" : "bi bi-eye-fill"} onClick={togglePassword}></i>
-                </PasswordWrapper>
-                <Button type="submit" disabled={disabled}>
-                    {disabled ? (
-                        <ThreeDots
-                            height="13"
-                            width="51"
-                            color="#FFFFFF"
-                            ariaLabel="three-dots-loading"
-                        />
-                    ) : (
-                        <p>Entrar</p>
-                    )}
-                </Button>
-            </FormWrapper>
-            <Link to="/cadastro">
-                <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
-            </Link>
-        </main>
-    );
+          }
+          disabled={disabled}
+          required
+        ></Input>
+        <PasswordWrapper>
+          <Input
+            type={showPW ? "text" : "password"}
+            placeholder="senha"
+            name="password"
+            onChange={(e) =>
+              handleForm({
+                name: e.target.name,
+                value: e.target.value,
+              })
+            }
+            disabled={disabled}
+            required
+          ></Input>
+          <i
+            className={showPW ? "bi bi-eye-slash-fill" : "bi bi-eye-fill"}
+            onClick={togglePassword}
+          ></i>
+        </PasswordWrapper>
+        <Button type="submit" disabled={disabled}>
+          {disabled ? (
+            <ThreeDots
+              height="13"
+              width="51"
+              color="#FFFFFF"
+              ariaLabel="three-dots-loading"
+            />
+          ) : (
+            <p>Entrar</p>
+          )}
+        </Button>
+      </FormWrapper>
+      <Link to="/cadastro">
+        <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
+      </Link>
+    </main>
+  );
 }
 
 export const MainNotAuth = styled.main`
@@ -133,16 +136,16 @@ export const FormWrapper = styled.form`
 `;
 
 const PasswordWrapper = styled.div`
-    width: 100%;
-    height: 45px;
-    position: relative;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  height: 45px;
+  position: relative;
+  display: flex;
+  align-items: center;
 
-    i {
-        position: absolute;
-        right: 10px;
-        font-size: 30px;
-        color: #666666;
-    }
+  i {
+    position: absolute;
+    right: 10px;
+    font-size: 30px;
+    color: #666666;
+  }
 `;

@@ -31,7 +31,8 @@ export default function Habit({
             if (todayDone.doneIds.includes(id)) {
               setProgress(
                 Math.round(
-                  ((todayDone.numberDone - 1) / (todayDone.numberTotal - 1)) * 100
+                  ((todayDone.numberDone - 1) / (todayDone.numberTotal - 1)) *
+                    100
                 )
               );
               setTodayDone({
@@ -39,8 +40,7 @@ export default function Habit({
                 numberTotal: todayDone.numberTotal - 1,
                 numberDone: todayDone.numberDone - 1,
               });
-            }
-            else {
+            } else {
               setProgress(
                 Math.round(
                   (todayDone.numberDone / (todayDone.numberTotal - 1)) * 100
@@ -72,14 +72,16 @@ export default function Habit({
         ))}
       </div>
       <TrashContainer onClick={removeHabit}>
-        {!deleteLoader ?
-          <i className="bi bi-trash"></i> :
+        {!deleteLoader ? (
+          <i className="bi bi-trash"></i>
+        ) : (
           <Oval
             height="17"
             width="17"
             color="#666666"
             ariaLabel="three-dots-loading"
-          />}
+          />
+        )}
       </TrashContainer>
     </HabitWrapper>
   );

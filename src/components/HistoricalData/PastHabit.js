@@ -2,17 +2,17 @@ import styled from "styled-components";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { IconContainer } from "../Today/TodayHabit";
 
-export default function PastHabit({ name, done, }) {
-    return (
-        <Wrapper>
-            <div>
-                <h2>{name}</h2>
-            </div>
-            <IconContainer done={done}>
-              <i className="bi bi-check"></i>
-            </IconContainer>
-        </Wrapper>
-    );
+export default function PastHabit({ name, done }) {
+  return (
+    <Wrapper>
+      <div>
+        <h2>{name}</h2>
+      </div>
+      <IconContainer done={done}>
+        <i className="bi bi-check"></i>
+      </IconContainer>
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`
@@ -38,6 +38,6 @@ const Wrapper = styled.div`
 
   i {
     font-size: 69px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;

@@ -6,36 +6,36 @@ import { useContext } from "react";
 import ProgressContext from "../contexts/ProgressContext";
 
 export default function Footer() {
-    const { progress } = useContext(ProgressContext);
+  const { progress } = useContext(ProgressContext);
 
-    return (
-        <FooterWrapper>
-            <Link to="/habitos">Hábitos</Link>
-            <Container>
-                <Link to="/hoje">
-                    <CircularProgressbar
-                        value={progress}
-                        text="Hoje"
-                        background={true}
-                        backgroundPadding={6}
-                        styles={buildStyles({
-                            backgroundColor: "#52B6FF",
-                            textColor: "#FFFFFF",
-                            pathColor: "#FFFFFF",
-                            trailColor: "transparent",
-                        })}
-                    />
-                </Link>
-            </Container>
-            <Link to="/historico">Histórico</Link>
-        </FooterWrapper>
-    );
+  return (
+    <FooterWrapper>
+      <Link to="/habitos">Hábitos</Link>
+      <Container>
+        <Link to="/hoje">
+          <CircularProgressbar
+            value={progress}
+            text="Hoje"
+            background={true}
+            backgroundPadding={6}
+            styles={buildStyles({
+              backgroundColor: "#52B6FF",
+              textColor: "#FFFFFF",
+              pathColor: "#FFFFFF",
+              trailColor: "transparent",
+            })}
+          />
+        </Link>
+      </Container>
+      <Link to="/historico">Histórico</Link>
+    </FooterWrapper>
+  );
 }
 
 const FooterWrapper = styled.footer`
   width: 100vw;
   height: 70px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,16 +45,16 @@ const FooterWrapper = styled.footer`
   left: 0;
   z-index: 2;
 
-    a {
-        color: #52B6FF;
-        font-size: 18px;
-    }
+  a {
+    color: #52b6ff;
+    font-size: 18px;
+  }
 `;
 
 const Container = styled.div`
-    width: 91px;
-    height: 91px;
-    position: absolute;
-    bottom: 15px;
-    left: calc((100vw - 91px)/2);
+  width: 91px;
+  height: 91px;
+  position: absolute;
+  bottom: 15px;
+  left: calc((100vw - 91px) / 2);
 `;

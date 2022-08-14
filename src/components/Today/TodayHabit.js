@@ -6,102 +6,102 @@ import LoginContext from "../../contexts/LoginContext";
 import { Grid } from "react-loader-spinner";
 
 export default function TodayHabit({
-    id,
-    name,
-    done,
-    currentSequence,
-    highestSequence,
-    loadSwitch,
-    setLoadSwitch,
+  id,
+  name,
+  done,
+  currentSequence,
+  highestSequence,
+  loadSwitch,
+  setLoadSwitch,
 }) {
-    const [checkLoader, setCheckLoader] = useState(false);
+  const [checkLoader, setCheckLoader] = useState(false);
 
-    const { token } = useContext(LoginContext);
+  const { token } = useContext(LoginContext);
 
-    function checkHabit() {
-        setCheckLoader(true);
-        if (done) {
-            postUncheck(id, token)
-                .then(() => {
-                    setCheckLoader(false);
-                    setLoadSwitch(!loadSwitch);
-                })
-                .catch(() => {
-                    alert("Houve um erro ao desmarcar seu hábito");
-                    setCheckLoader(false);
-                });
-        } else {
-            postCheck(id, token)
-                .then(() => {
-                    setCheckLoader(false);
-                    setLoadSwitch(!loadSwitch);
-                })
-                .catch(() => {
-                    alert("Houve um erro ao marcar seu hábito");
-                    setCheckLoader(false);
-                });
-        }
+  function checkHabit() {
+    setCheckLoader(true);
+    if (done) {
+      postUncheck(id, token)
+        .then(() => {
+          setCheckLoader(false);
+          setLoadSwitch(!loadSwitch);
+        })
+        .catch(() => {
+          alert("Houve um erro ao desmarcar seu hábito");
+          setCheckLoader(false);
+        });
+    } else {
+      postCheck(id, token)
+        .then(() => {
+          setCheckLoader(false);
+          setLoadSwitch(!loadSwitch);
+        })
+        .catch(() => {
+          alert("Houve um erro ao marcar seu hábito");
+          setCheckLoader(false);
+        });
     }
+  }
 
-    return (
-        <Wrapper done={done}>
-            <div>
-                <h2>{name}</h2>
-                <div>
-                    {currentSequence > 1 ? (
-                        <span>
-                            <span>Sequência atual: </span>
-                            <SequenceSpan
-                                done={done}
-                            >{`${currentSequence} dias`}</SequenceSpan>
-                        </span>
-                    ) : (
-                        <span>
-                            <span>Sequência atual: </span>
-                            <SequenceSpan
-                                done={done}
-                            >{`${currentSequence} dia`}</SequenceSpan>
-                        </span>
-                    )}
-                    <span>
-                        {highestSequence > 1 ? (
-                            <span>
-                                <span>Seu recorde: </span>
-                                <RecordSpan
-                                    currentSequence={currentSequence}
-                                    highestSequence={highestSequence}
-                                    done={done}
-                                >{`${highestSequence} dias`}</RecordSpan>
-                            </span>
-                        ) : (
-                            <span>
-                                <span>Seu recorde: </span>
-                                <RecordSpan
-                                    currentSequence={currentSequence}
-                                    highestSequence={highestSequence}
-                                    done={done}
-                                >{`${highestSequence} dia`}</RecordSpan>
-                            </span>
-                        )}
-                    </span>
-                </div>
-            </div>
-            <IconContainer done={done} onClick={checkHabit}>
-                {!checkLoader ? (
-                    <i className="bi bi-check"></i>
-                ) : (
-                    <LoaderContainer>
-                        <Grid
-                            height="50"
-                            width="50"
-                            color="#FFFFFF"
-                            ariaLabel="three-dots-loading"
-                        />
-                    </LoaderContainer>
-                )}
-            </IconContainer>
-        </Wrapper>
-    );
+  return (
+    <Wrapper done={done}>
+      <div>
+        <h2>{name}</h2>
+        <div>
+          {currentSequence > 1 ? (
+            <span>
+              <span>Sequência atual: </span>
+              <SequenceSpan
+                done={done}
+              >{`${currentSequence} dias`}</SequenceSpan>
+            </span>
+          ) : (
+            <span>
+              <span>Sequência atual: </span>
+              <SequenceSpan
+                done={done}
+              >{`${currentSequence} dia`}</SequenceSpan>
+            </span>
+          )}
+          <span>
+            {highestSequence > 1 ? (
+              <span>
+                <span>Seu recorde: </span>
+                <RecordSpan
+                  currentSequence={currentSequence}
+                  highestSequence={highestSequence}
+                  done={done}
+                >{`${highestSequence} dias`}</RecordSpan>
+              </span>
+            ) : (
+              <span>
+                <span>Seu recorde: </span>
+                <RecordSpan
+                  currentSequence={currentSequence}
+                  highestSequence={highestSequence}
+                  done={done}
+                >{`${highestSequence} dia`}</RecordSpan>
+              </span>
+            )}
+          </span>
+        </div>
+      </div>
+      <IconContainer done={done} onClick={checkHabit}>
+        {!checkLoader ? (
+          <i className="bi bi-check"></i>
+        ) : (
+          <LoaderContainer>
+            <Grid
+              height="50"
+              width="50"
+              color="#FFFFFF"
+              ariaLabel="three-dots-loading"
+            />
+          </LoaderContainer>
+        )}
+      </IconContainer>
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`
@@ -146,11 +146,11 @@ const SequenceSpan = styled.span`
 
 const RecordSpan = styled.span`
   color: ${(props) => {
-        if (props.done && props.currentSequence === props.highestSequence) {
-            return "#8FC549";
-        }
-        return "#666666";
-    }};
+    if (props.done && props.currentSequence === props.highestSequence) {
+      return "#8FC549";
+    }
+    return "#666666";
+  }};
 `;
 
 export const IconContainer = styled.div`

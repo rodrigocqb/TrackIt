@@ -14,98 +14,98 @@ import Header from "../Header";
 import TodayHabit from "./TodayHabit";
 
 export default function Today() {
-    const [habitsToday, setHabitsToday] = useState([]);
-    const [loadSwitch, setLoadSwitch] = useState(false);
-    const [loaderSpinner, setLoaderSpinner] = useState(true);
+  const [habitsToday, setHabitsToday] = useState([]);
+  const [loadSwitch, setLoadSwitch] = useState(false);
+  const [loaderSpinner, setLoaderSpinner] = useState(true);
 
-    const { token } = useContext(LoginContext);
-    const { progress, setProgress, setTodayDone } = useContext(ProgressContext);
+  const { token } = useContext(LoginContext);
+  const { progress, setProgress, setTodayDone } = useContext(ProgressContext);
 
-    dayjs.extend(updateLocale);
-    dayjs.updateLocale("pt-br", {
-        weekdays: [
-            "Domingo",
-            "Segunda",
-            "Terça",
-            "Quarta",
-            "Quinta",
-            "Sexta",
-            "Sábado",
-        ],
-    });
+  dayjs.extend(updateLocale);
+  dayjs.updateLocale("pt-br", {
+    weekdays: [
+      "Domingo",
+      "Segunda",
+      "Terça",
+      "Quarta",
+      "Quinta",
+      "Sexta",
+      "Sábado",
+    ],
+  });
 
-    const today = dayjs().locale("pt-br").format("dddd, DD/MM");
+  const today = dayjs().locale("pt-br").format("dddd, DD/MM");
 
-    useEffect(() => {
-        getHabitsToday(token)
-            .then((res) => {
-                setHabitsToday(res.data);
-                setProgress(
-                    Math.round(
-                        (res.data.filter((value) => value.done === true).length /
-                            res.data.length) *
-                        100
-                    )
-                );
-                setTodayDone({
-                    doneIds: res.data
-                        .filter((value) => value.done === true)
-                        .map((v) => v.id),
-                    numberDone: res.data.filter((value) => value.done === true).length,
-                    numberTotal: res.data.length,
-                });
-                setLoaderSpinner(false);
-            })
-            .catch(() => {
-                alert("Houve um erro ao carregar seus hábitos de hoje");
-                setLoaderSpinner(false);
-            });
-    }, [token, loadSwitch, setProgress, setTodayDone, setLoaderSpinner]);
+  useEffect(() => {
+    getHabitsToday(token)
+      .then((res) => {
+        setHabitsToday(res.data);
+        setProgress(
+          Math.round(
+            (res.data.filter((value) => value.done === true).length /
+              res.data.length) *
+              100
+          )
+        );
+        setTodayDone({
+          doneIds: res.data
+            .filter((value) => value.done === true)
+            .map((v) => v.id),
+          numberDone: res.data.filter((value) => value.done === true).length,
+          numberTotal: res.data.length,
+        });
+        setLoaderSpinner(false);
+      })
+      .catch(() => {
+        alert("Houve um erro ao carregar seus hábitos de hoje");
+        setLoaderSpinner(false);
+      });
+  }, [token, loadSwitch, setProgress, setTodayDone, setLoaderSpinner]);
 
-    return (
-        <>
-            <Header />
-            <MainAuth>
-                <TitleSection>
-                    <div>
-                        <h1>{today}</h1>
-                        {!loaderSpinner && (
-                            <ProgressContainer done={progress}>
-                                <p>
-                                    {progress
-                                        ? `${progress}% dos hábitos concluídos`
-                                        : "Nenhum hábito concluído ainda"}
-                                </p>
-                            </ProgressContainer>
-                        )}
-                    </div>
-                </TitleSection>
-                {loaderSpinner && (
-                    <ThreeDots
-                        height="80"
-                        width="80"
-                        color="#52b6ff"
-                        ariaLabel="three-dots-loading"
-                    />
-                )}
-                <TodaySection>
-                    {habitsToday.map((value, index) => (
-                        <TodayHabit
-                            key={index}
-                            id={value.id}
-                            name={value.name}
-                            done={value.done}
-                            currentSequence={value.currentSequence}
-                            highestSequence={value.highestSequence}
-                            loadSwitch={loadSwitch}
-                            setLoadSwitch={setLoadSwitch}
-                        />
-                    ))}
-                </TodaySection>
-            </MainAuth>
-            <Footer />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      <MainAuth>
+        <TitleSection>
+          <div>
+            <h1>{today}</h1>
+            {!loaderSpinner && (
+              <ProgressContainer done={progress}>
+                <p>
+                  {progress
+                    ? `${progress}% dos hábitos concluídos`
+                    : "Nenhum hábito concluído ainda"}
+                </p>
+              </ProgressContainer>
+            )}
+          </div>
+        </TitleSection>
+        {loaderSpinner && (
+          <ThreeDots
+            height="80"
+            width="80"
+            color="#52b6ff"
+            ariaLabel="three-dots-loading"
+          />
+        )}
+        <TodaySection>
+          {habitsToday.map((value, index) => (
+            <TodayHabit
+              key={index}
+              id={value.id}
+              name={value.name}
+              done={value.done}
+              currentSequence={value.currentSequence}
+              highestSequence={value.highestSequence}
+              loadSwitch={loadSwitch}
+              setLoadSwitch={setLoadSwitch}
+            />
+          ))}
+        </TodaySection>
+      </MainAuth>
+      <Footer />
+    </>
+  );
 }
 
 const ProgressContainer = styled.div`

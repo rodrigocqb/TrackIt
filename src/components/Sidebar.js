@@ -4,36 +4,42 @@ import styled, { keyframes } from "styled-components";
 import UserContext from "../contexts/UserContext";
 
 export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
-    const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <Menu show={toggleSidebar.show}>
-            <Background
-                onClick={() => {
-                    setToggleSidebar({ ...toggleSidebar, slideOut: true });
-                    setTimeout(() => { setToggleSidebar({ show: false, slideOut: false }) }, 500);
-                }}
-            ></Background>
-            <Content animation={toggleSidebar.slideOut}>
-                <div>
-                    <img src={user.image} alt="" />
-                    {user.name}
-                </div>
-                <Options>
-                    <div>Theme toggle</div>
-                    <div>Language</div>
-                    <div onClick={() => {
-                        if (window.confirm("Tem certeza que deseja fazer logout?")) {
-                            localStorage.removeItem("user");
-                            navigate("/");
-                        }
-                    }}>Logout</div>
-                </Options>
-            </Content>
-        </Menu>
-    );
+  return (
+    <Menu show={toggleSidebar.show}>
+      <Background
+        onClick={() => {
+          setToggleSidebar({ ...toggleSidebar, slideOut: true });
+          setTimeout(() => {
+            setToggleSidebar({ show: false, slideOut: false });
+          }, 500);
+        }}
+      ></Background>
+      <Content animation={toggleSidebar.slideOut}>
+        <div>
+          <img src={user.image} alt="" />
+          {user.name}
+        </div>
+        <Options>
+          <div>Theme toggle</div>
+          <div>Language</div>
+          <div
+            onClick={() => {
+              if (window.confirm("Tem certeza que deseja fazer logout?")) {
+                localStorage.removeItem("user");
+                navigate("/");
+              }
+            }}
+          >
+            Logout
+          </div>
+        </Options>
+      </Content>
+    </Menu>
+  );
 }
 
 const SlideIn = keyframes`
@@ -84,25 +90,25 @@ const Content = styled.div`
   animation: ${(props) => (props.animation ? SlideOut : SlideIn)} 0.5s
     ease-in-out;
 
-    img {
-        min-width: 51px;
-        height: 51px;
-        border-radius: 50%;
-        margin-right: 15px;
-    }
+  img {
+    min-width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
 
-    div:first-child {
-        display: flex;
-        align-items: center;
-        word-break: break-word;
-        margin-top: 20px;
-    }
+  div:first-child {
+    display: flex;
+    align-items: center;
+    word-break: break-word;
+    margin-top: 20px;
+  }
 `;
 
 const Options = styled.div`
-    margin-top: 40px;
+  margin-top: 40px;
 
-    div {
-        margin-top: 20px;
-    }
+  div {
+    margin-top: 20px;
+  }
 `;

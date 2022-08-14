@@ -92,13 +92,14 @@ export default function HistoricalData() {
           <h1>Histórico</h1>
         </TitleSection>
         <CalendarContainer>
-          {loader ?
+          {loader ? (
             <ThreeDots
               height="80"
               width="80"
               color="#52b6ff"
               ariaLabel="three-dots-loading"
-            /> :
+            />
+          ) : (
             <Calendar
               locale="pt-br"
               calendarType="US"
@@ -107,7 +108,7 @@ export default function HistoricalData() {
               tileClassName={assignColor}
               onClickDay={showHabits}
             />
-          }
+          )}
         </CalendarContainer>
         {openDay.open && (
           <DaySection ref={scroll}>

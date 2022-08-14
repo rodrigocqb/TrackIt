@@ -25,7 +25,9 @@ function App() {
     <BrowserRouter>
       <LoginContext.Provider value={{ token, setToken }}>
         <UserContext.Provider value={{ user, setUser }}>
-          <ProgressContext.Provider value={{ progress, setProgress, todayDone, setTodayDone }}>
+          <ProgressContext.Provider
+            value={{ progress, setProgress, todayDone, setTodayDone }}
+          >
             <GlobalStyle />
             <Routes>
               <Route path="/" element={<Login />} />

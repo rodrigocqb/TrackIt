@@ -2,47 +2,47 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function DayButton({
-    children,
-    id,
-    disabled,
-    newHabit,
-    setNewHabit,
+  children,
+  id,
+  disabled,
+  newHabit,
+  setNewHabit,
 }) {
-    const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (newHabit.days.includes(id)) {
+      setClicked(true);
+    }
+  }, [id, newHabit.days]);
+
+  return (
+    <Day
+      disabled={disabled}
+      clicked={clicked}
+      onClick={() => {
+        setClicked(!clicked);
         if (newHabit.days.includes(id)) {
-            setClicked(true);
+          setNewHabit({
+            ...newHabit,
+            days: newHabit.days.filter((value) => {
+              if (value !== id) {
+                return true;
+              }
+              return false;
+            }),
+          });
+        } else {
+          setNewHabit({
+            ...newHabit,
+            days: [...newHabit.days, id],
+          });
         }
-    }, [id, newHabit.days]);
-
-    return (
-        <Day
-            disabled={disabled}
-            clicked={clicked}
-            onClick={() => {
-                setClicked(!clicked);
-                if (newHabit.days.includes(id)) {
-                    setNewHabit({
-                        ...newHabit,
-                        days: newHabit.days.filter((value) => {
-                            if (value !== id) {
-                                return true;
-                            }
-                            return false;
-                        }),
-                    });
-                } else {
-                    setNewHabit({
-                        ...newHabit,
-                        days: [...newHabit.days, id],
-                    });
-                }
-            }}
-        >
-            {children}
-        </Day>
-    );
+      }}
+    >
+      {children}
+    </Day>
+  );
 }
 
 const Day = styled.button`
