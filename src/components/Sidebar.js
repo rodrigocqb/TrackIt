@@ -43,13 +43,21 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
 }
 
 const SlideIn = keyframes`
-    0% {transform: translate(100%)}
-    100% {transform: translate(0)}
+  0% {
+    transform: translate(100%);
+  }
+  100% {
+    transform: translate(0);
+  }
 `;
 
 const SlideOut = keyframes`
-    0% {transform: translate(0)}
-    100% {transform: translate(100%)}
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(100%);
+  }
 `;
 
 const Menu = styled.section`
