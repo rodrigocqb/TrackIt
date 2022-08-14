@@ -1,14 +1,22 @@
+import { useState } from "react";
 import { useContext } from "react";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
+import Sidebar from "./Sidebar";
 
 export default function Header() {
+    const [toggleSidebar, setToggleSidebar] = useState({show: false, slideOut: false});
+
     const { user } = useContext(UserContext);
+
     return (
-        <HeaderWrapper>
-            <h1>TrackIt</h1>
-            <img src={user.image} alt="" />
-        </HeaderWrapper>
+        <>
+            <HeaderWrapper>
+                <h1>TrackIt</h1>
+                <img src={user.image} alt="" onClick={() => {setToggleSidebar({ ...toggleSidebar, show: true });}} />
+            </HeaderWrapper>
+            <Sidebar toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
+        </>
     );
 }
 
