@@ -1,15 +1,37 @@
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import UserContext from "../contexts/UserContext";
 
 export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
+    const { user } = useContext(UserContext);
+
+    const navigate = useNavigate();
+
     return (
         <Menu show={toggleSidebar.show}>
             <Background
                 onClick={() => {
-                        setToggleSidebar({ ...toggleSidebar, slideOut: true });
-                        setTimeout(() => {setToggleSidebar({ show: false, slideOut: false })}, 500);
+                    setToggleSidebar({ ...toggleSidebar, slideOut: true });
+                    setTimeout(() => { setToggleSidebar({ show: false, slideOut: false }) }, 500);
                 }}
             ></Background>
-            <Content animation={toggleSidebar.slideOut}></Content>
+            <Content animation={toggleSidebar.slideOut}>
+                <div>
+                    <img src={user.image} alt="" />
+                    {user.name}
+                </div>
+                <Options>
+                    <div>Theme toggle</div>
+                    <div>Language</div>
+                    <div onClick={() => {
+                        if (window.confirm("Tem certeza que deseja fazer logout?")) {
+                            localStorage.removeItem("user");
+                            navigate("/");
+                        }
+                    }}>Logout</div>
+                </Options>
+            </Content>
         </Menu>
     );
 }
@@ -45,13 +67,42 @@ const Background = styled.div`
 `;
 
 const Content = styled.div`
-  min-width: 40%;
+  width: 50%;
   min-height: 100%;
-  background-color: #ffffff;
+  background-color: #f2f2f2;
+  padding: 0 10px;
+  color: #126ba5;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   top: 0;
   right: 0;
   z-index: 4;
   animation: ${(props) => (props.animation ? SlideOut : SlideIn)} 0.5s
     ease-in-out;
+
+    img {
+        min-width: 51px;
+        height: 51px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+
+    div:first-child {
+        display: flex;
+        align-items: center;
+        word-break: break-word;
+        margin-top: 20px;
+    }
+`;
+
+const Options = styled.div`
+    margin-top: 40px;
+
+    div {
+        margin-top: 20px;
+    }
 `;
