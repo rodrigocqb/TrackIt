@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { Button } from "../common/Button";
+import LanguageContext from "../contexts/LanguageContext";
 import UserContext from "../contexts/UserContext";
 
 export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
   const { user } = useContext(UserContext);
+  const { language, setLanguage } = useContext(LanguageContext);
 
   const navigate = useNavigate();
 
@@ -20,22 +23,36 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
       ></Background>
       <Content animation={toggleSidebar.slideOut}>
         <div>
-          <img src={user.image} alt="" />
+          <User src={user.image} alt="" />
           {user.name}
         </div>
         <Options>
           <div>Theme toggle</div>
-          <div>Language</div>
-          <div
-            onClick={() => {
-              if (window.confirm("Tem certeza que deseja fazer logout?")) {
-                localStorage.removeItem("user");
-                navigate("/");
-              }
-            }}
-          >
-            Logout
+          <div>
+            <label htmlFor="language">Língua:</label>
+            <select
+              name="language"
+              value={language}
+              onChange={(e) => {
+                setLanguage(e.target.value);
+              }}
+            >
+              <option value="pt-br">🇧🇷 Português</option>
+              <option value="en-us">🇺🇸 English</option>
+            </select>
           </div>
+          <ButtonDiv>
+            <Logout
+              onClick={() => {
+                if (window.confirm("Tem certeza que deseja fazer logout?")) {
+                  localStorage.removeItem("user");
+                  navigate("/");
+                }
+              }}
+            >
+              Logout
+            </Logout>
+          </ButtonDiv>
         </Options>
       </Content>
     </Menu>
@@ -98,13 +115,6 @@ const Content = styled.div`
   animation: ${(props) => (props.animation ? SlideOut : SlideIn)} 0.5s
     ease-in-out;
 
-  img {
-    min-width: 51px;
-    height: 51px;
-    border-radius: 50%;
-    margin-right: 15px;
-  }
-
   div:first-child {
     display: flex;
     align-items: center;
@@ -113,10 +123,42 @@ const Content = styled.div`
   }
 `;
 
+const User = styled.img`
+  min-width: 51px;
+  height: 51px;
+  border-radius: 50%;
+  margin-right: 15px;
+`;
+
 const Options = styled.div`
   margin-top: 40px;
 
   div {
     margin-top: 20px;
   }
+
+  select {
+    outline: none;
+    color: #666666;
+    border: 1px solid #d5d5d5;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 70%;
+    height: 30px;
+    padding-left: 5px;
+    font-size: 14px;
+  }
+`;
+
+const Logout = styled(Button)`
+  width: 70%;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 20px;
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
 `;
