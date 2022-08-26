@@ -1,20 +1,16 @@
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { Button } from "../common/Button";
-import LanguageContext from "../contexts/LanguageContext";
 import UserContext from "../contexts/UserContext";
 
 export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
   const { user } = useContext(UserContext);
-  const { language, setLanguage } = useContext(LanguageContext);
 
   const navigate = useNavigate();
 
-  const lngs = {
-    en: { nativeName: "English" },
-    pt: { nativeName: "Portuguese" },
-  };
+  const { t, i18n } = useTranslation();
 
   return (
     <Menu show={toggleSidebar.show}>
@@ -34,12 +30,12 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
         <Options>
           <div>Theme toggle</div>
           <div>
-            <label htmlFor="language">Língua:</label>
+            <label htmlFor="language">{t("language")}</label>
             <select
               name="language"
-              value={language}
+              value={i18n.resolvedLanguage}
               onChange={(e) => {
-                setLanguage(e.target.value);
+                i18n.changeLanguage(e.target.value);
               }}
             >
               <option value="pt-BR">🇧🇷 Português</option>

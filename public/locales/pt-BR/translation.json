@@ -1,6 +1,12 @@
 {
         "password": "senha",
         "enter": "Entrar",
-        "sign-up": "Não tem uma conta? Cadastre-se!",
-        "language": "Língua:"
+        "sign-up-link": "Não tem uma conta? Cadastre-se!",
+        "language": "Língua:",
+        "errorLogIn": "Houve um erro no seu login.",
+        "errorSignUp": "Houve um erro no seu cadastro.",
+        "name": "nome",
+        "photo": "foto",
+        "sign-up": "Cadastrar",
+        "login": "Já tem uma conta? Faça login!"
 }

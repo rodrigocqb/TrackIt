@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LanguageContext from "../contexts/LanguageContext";
 import LoginContext from "../contexts/LoginContext";
 import ProgressContext from "../contexts/ProgressContext";
 import UserContext from "../contexts/UserContext";
@@ -21,49 +20,46 @@ function App() {
     numberDone: 0,
     numberTotal: 0,
   });
-  const [language, setLanguage] = useState("pt-BR");
 
   return (
     <BrowserRouter>
-      <LanguageContext.Provider value={{ language, setLanguage }}>
-        <LoginContext.Provider value={{ token, setToken }}>
-          <UserContext.Provider value={{ user, setUser }}>
-            <ProgressContext.Provider
-              value={{ progress, setProgress, todayDone, setTodayDone }}
-            >
-              <GlobalStyle />
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/cadastro" element={<SignUp />} />
-                <Route
-                  path="/habitos"
-                  element={
-                    <PrivatePage>
-                      <Habits />
-                    </PrivatePage>
-                  }
-                />
-                <Route
-                  path="/hoje"
-                  element={
-                    <PrivatePage>
-                      <Today />
-                    </PrivatePage>
-                  }
-                />
-                <Route
-                  path="/historico"
-                  element={
-                    <PrivatePage>
-                      <HistoricalData />
-                    </PrivatePage>
-                  }
-                />
-              </Routes>
-            </ProgressContext.Provider>
-          </UserContext.Provider>
-        </LoginContext.Provider>
-      </LanguageContext.Provider>
+      <LoginContext.Provider value={{ token, setToken }}>
+        <UserContext.Provider value={{ user, setUser }}>
+          <ProgressContext.Provider
+            value={{ progress, setProgress, todayDone, setTodayDone }}
+          >
+            <GlobalStyle />
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/cadastro" element={<SignUp />} />
+              <Route
+                path="/habitos"
+                element={
+                  <PrivatePage>
+                    <Habits />
+                  </PrivatePage>
+                }
+              />
+              <Route
+                path="/hoje"
+                element={
+                  <PrivatePage>
+                    <Today />
+                  </PrivatePage>
+                }
+              />
+              <Route
+                path="/historico"
+                element={
+                  <PrivatePage>
+                    <HistoricalData />
+                  </PrivatePage>
+                }
+              />
+            </Routes>
+          </ProgressContext.Provider>
+        </UserContext.Provider>
+      </LoginContext.Provider>
     </BrowserRouter>
   );
 }

@@ -1,4 +1,10 @@
-import { FormWrapper, MainLogo, MainNotAuth, SignUpLogin } from "./Login";
+import {
+  FormWrapper,
+  LangSelect,
+  MainLogo,
+  MainNotAuth,
+  SignUpLogin,
+} from "./Login";
 import Logo from "../img/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { postSignUp } from "../services/trackit.js";
@@ -6,6 +12,7 @@ import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Input } from "../common/Input";
 import { Button } from "../common/Button";
+import { useTranslation } from "react-i18next";
 
 export default function SignUp() {
   const [form, setForm] = useState({
@@ -18,6 +25,8 @@ export default function SignUp() {
   const [disabled, setDisabled] = useState(false);
 
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
 
   function handleForm({ value, name }) {
     setForm({
@@ -34,7 +43,7 @@ export default function SignUp() {
         navigate("/");
       })
       .catch(() => {
-        alert("Houve um erro no seu cadastro.");
+        alert(t("errorSignUp"));
         setDisabled(false);
       });
   }
@@ -42,6 +51,19 @@ export default function SignUp() {
   return (
     <MainNotAuth>
       <MainLogo src={Logo} alt="" />
+      <LangSelect>
+        <label htmlFor="language">{t("language")}</label>
+        <select
+          name="language"
+          value={i18n.resolvedLanguage}
+          onChange={(e) => {
+            i18n.changeLanguage(e.target.value);
+          }}
+        >
+          <option value="pt-BR">🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </LangSelect>
       <FormWrapper onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -58,7 +80,7 @@ export default function SignUp() {
         ></Input>
         <Input
           type="password"
-          placeholder="senha"
+          placeholder={t("password")}
           name="password"
           onChange={(e) =>
             handleForm({
@@ -71,7 +93,7 @@ export default function SignUp() {
         ></Input>
         <Input
           type="text"
-          placeholder="nome"
+          placeholder={t("name")}
           name="name"
           onChange={(e) =>
             handleForm({
@@ -84,7 +106,7 @@ export default function SignUp() {
         ></Input>
         <Input
           type="url"
-          placeholder="foto"
+          placeholder={t("photo")}
           name="image"
           onChange={(e) =>
             handleForm({
@@ -104,12 +126,12 @@ export default function SignUp() {
               ariaLabel="three-dots-loading"
             />
           ) : (
-            <p>Cadastrar</p>
+            <p>{t("sign-up")}</p>
           )}
         </Button>
       </FormWrapper>
       <Link to="/">
-        <SignUpLogin>Já tem uma conta? Faça login!</SignUpLogin>
+        <SignUpLogin>{t("login")}</SignUpLogin>
       </Link>
     </MainNotAuth>
   );

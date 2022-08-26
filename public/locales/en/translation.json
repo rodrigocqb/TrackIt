@@ -1,6 +1,12 @@
 {
     "password": "password",
     "enter": "Enter",
-    "sign-up": "Don't have an account? Sign up!",
-    "language": "Language:"
+    "sign-up-link": "Don't have an account? Sign up!",
+    "language": "Language:",
+    "errorLogIn": "There was an error when trying to log in.",
+    "errorSignUp": "There was an error when trying to sign up.",
+    "name": "name",
+    "photo": "photo",
+    "sign-up": "Sign up",
+    "login": "Already have an account? Log in!"
 }

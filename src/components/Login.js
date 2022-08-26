@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../img/logo.svg";
@@ -10,7 +10,6 @@ import { Input } from "../common/Input";
 import { Button } from "../common/Button";
 import { useLocal } from "../hooks/useLocal";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import LanguageContext from "../contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 
 export default function Login() {
@@ -25,7 +24,6 @@ export default function Login() {
 
   const { setToken } = useContext(LoginContext);
   const { setUser } = useContext(UserContext);
-  const { language, setLanguage } = useContext(LanguageContext);
 
   const navigate = useNavigate();
 
@@ -49,7 +47,7 @@ export default function Login() {
         navigate("/hoje");
       })
       .catch(() => {
-        alert("Houve um erro no seu login.");
+        alert(t("errorLogIn"));
         setDisabled(false);
       });
   }
@@ -58,10 +56,6 @@ export default function Login() {
     setShowPW(!showPW);
   }
 
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language]);
-
   return (
     <main>
       <MainLogo src={Logo} alt="" />
@@ -69,9 +63,9 @@ export default function Login() {
         <label htmlFor="language">{t("language")}</label>
         <select
           name="language"
-          value={language}
+          value={i18n.resolvedLanguage}
           onChange={(e) => {
-            setLanguage(e.target.value);
+            i18n.changeLanguage(e.target.value);
           }}
         >
           <option value="pt-BR">🇧🇷 Português</option>
@@ -125,7 +119,7 @@ export default function Login() {
         </Button>
       </FormWrapper>
       <Link to="/cadastro">
-        <SignUpLogin>{t("sign-up")}</SignUpLogin>
+        <SignUpLogin>{t("sign-up-link")}</SignUpLogin>
       </Link>
     </main>
   );
@@ -172,7 +166,7 @@ const PasswordWrapper = styled.div`
   }
 `;
 
-const LangSelect = styled.div`
+export const LangSelect = styled.div`
   width: 160px;
   position: absolute;
   top: 10px;
