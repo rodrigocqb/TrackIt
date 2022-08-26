@@ -119,7 +119,7 @@ export default function Login() {
         </Button>
       </FormWrapper>
       <Link to="/cadastro">
-        <SignUpLogin>{t("sign-up-link")}</SignUpLogin>
+        <SignUpLogin>{t("signUpLink")}</SignUpLogin>
       </Link>
     </main>
   );

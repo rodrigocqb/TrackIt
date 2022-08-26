@@ -1,7 +1,7 @@
 {
   "password": "password",
   "enter": "Enter",
-  "sign-up-link": "Don't have an account? Sign up!",
+  "signUpLink": "Don't have an account? Sign up!",
   "language": "Language:",
   "errorLogIn": "There was an error when trying to log in.",
   "errorSignUp": "There was an error when trying to sign up.",
