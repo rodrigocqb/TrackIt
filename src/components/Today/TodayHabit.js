@@ -4,6 +4,7 @@ import { postCheck, postUncheck } from "../../services/trackit";
 import { useContext, useState } from "react";
 import LoginContext from "../../contexts/LoginContext";
 import { Grid } from "react-loader-spinner";
+import { useTranslation } from "react-i18next";
 
 export default function TodayHabit({
   id,
@@ -18,6 +19,8 @@ export default function TodayHabit({
 
   const { token } = useContext(LoginContext);
 
+  const { t } = useTranslation();
+
   function checkHabit() {
     setCheckLoader(true);
     if (done) {
@@ -27,7 +30,7 @@ export default function TodayHabit({
           setLoadSwitch(!loadSwitch);
         })
         .catch(() => {
-          alert("Houve um erro ao desmarcar seu hábito");
+          alert(t("errorUncheck"));
           setCheckLoader(false);
         });
     } else {
@@ -37,7 +40,7 @@ export default function TodayHabit({
           setLoadSwitch(!loadSwitch);
         })
         .catch(() => {
-          alert("Houve um erro ao marcar seu hábito");
+          alert(t("errorCheck"));
           setCheckLoader(false);
         });
     }
@@ -50,37 +53,37 @@ export default function TodayHabit({
         <div>
           {currentSequence > 1 ? (
             <span>
-              <span>Sequência atual: </span>
-              <SequenceSpan
-                done={done}
-              >{`${currentSequence} dias`}</SequenceSpan>
+              <span>{t("sequence")}</span>
+              <SequenceSpan done={done}>{`${currentSequence} ${t(
+                "day"
+              )}s`}</SequenceSpan>
             </span>
           ) : (
             <span>
-              <span>Sequência atual: </span>
-              <SequenceSpan
-                done={done}
-              >{`${currentSequence} dia`}</SequenceSpan>
+              <span>{t("sequence")}</span>
+              <SequenceSpan done={done}>{`${currentSequence} ${t(
+                "day"
+              )}`}</SequenceSpan>
             </span>
           )}
           <span>
             {highestSequence > 1 ? (
               <span>
-                <span>Seu recorde: </span>
+                <span>{t("record")}</span>
                 <RecordSpan
                   currentSequence={currentSequence}
                   highestSequence={highestSequence}
                   done={done}
-                >{`${highestSequence} dias`}</RecordSpan>
+                >{`${highestSequence} ${t("day")}s`}</RecordSpan>
               </span>
             ) : (
               <span>
-                <span>Seu recorde: </span>
+                <span>{t("record")}</span>
                 <RecordSpan
                   currentSequence={currentSequence}
                   highestSequence={highestSequence}
                   done={done}
-                >{`${highestSequence} dia`}</RecordSpan>
+                >{`${highestSequence} ${t("day")}`}</RecordSpan>
               </span>
             )}
           </span>

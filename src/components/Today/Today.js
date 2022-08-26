@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
 import styled from "styled-components";
 import { MainAuth } from "../../common/MainAuth";
@@ -21,6 +22,8 @@ export default function Today() {
   const { token } = useContext(LoginContext);
   const { progress, setProgress, setTodayDone } = useContext(ProgressContext);
 
+  const { t, i18n } = useTranslation();
+
   dayjs.extend(updateLocale);
   dayjs.updateLocale("pt-br", {
     weekdays: [
@@ -34,7 +37,7 @@ export default function Today() {
     ],
   });
 
-  const today = dayjs().locale("pt-br").format("dddd, DD/MM");
+  let today;
 
   useEffect(() => {
     getHabitsToday(token)
@@ -62,6 +65,19 @@ export default function Today() {
       });
   }, [token, loadSwitch, setProgress, setTodayDone, setLoaderSpinner]);
 
+  switch (i18n.resolvedLanguage) {
+    case "pt-BR":
+      today = dayjs().locale("pt-br").format("dddd, DD/MM");
+      break;
+
+    case "en":
+      today = dayjs().locale("en-us").format("dddd, MM/DD");
+      break;
+
+    default:
+      return;
+  }
+
   return (
     <>
       <Header />
@@ -73,8 +89,8 @@ export default function Today() {
               <ProgressContainer done={progress}>
                 <p>
                   {progress
-                    ? `${progress}% dos hábitos concluídos`
-                    : "Nenhum hábito concluído ainda"}
+                    ? `${progress}% ${t("progressSome")}`
+                    : `${t("progressNone")}`}
                 </p>
               </ProgressContainer>
             )}
