@@ -19,5 +19,6 @@
   "record": "Your record: ",
   "habits": "Habits",
   "today": "Today",
-  "history": "History"
+  "history": "History",
+  "pleaseLogIn": "Please log in before accessing this page"
 }
