@@ -21,7 +21,7 @@ function App() {
     numberDone: 0,
     numberTotal: 0,
   });
-  const [language, setLanguage] = useState("pt-br");
+  const [language, setLanguage] = useState("pt-BR");
 
   return (
     <BrowserRouter>

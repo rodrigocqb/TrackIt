@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../img/logo.svg";
@@ -10,6 +10,8 @@ import { Input } from "../common/Input";
 import { Button } from "../common/Button";
 import { useLocal } from "../hooks/useLocal";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import LanguageContext from "../contexts/LanguageContext";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -23,8 +25,11 @@ export default function Login() {
 
   const { setToken } = useContext(LoginContext);
   const { setUser } = useContext(UserContext);
+  const { language, setLanguage } = useContext(LanguageContext);
 
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
 
   function handleForm({ value, name }) {
     setForm({
@@ -53,9 +58,26 @@ export default function Login() {
     setShowPW(!showPW);
   }
 
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
+
   return (
     <main>
       <MainLogo src={Logo} alt="" />
+      <LangSelect>
+        <label htmlFor="language">{t("language")}</label>
+        <select
+          name="language"
+          value={language}
+          onChange={(e) => {
+            setLanguage(e.target.value);
+          }}
+        >
+          <option value="pt-BR">🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </LangSelect>
       <FormWrapper onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -73,7 +95,7 @@ export default function Login() {
         <PasswordWrapper>
           <Input
             type={showPW ? "text" : "password"}
-            placeholder="senha"
+            placeholder={t("password")}
             name="password"
             onChange={(e) =>
               handleForm({
@@ -98,12 +120,12 @@ export default function Login() {
               ariaLabel="three-dots-loading"
             />
           ) : (
-            <p>Entrar</p>
+            <p>{t("enter")}</p>
           )}
         </Button>
       </FormWrapper>
       <Link to="/cadastro">
-        <SignUpLogin>Não tem uma conta? Cadastre-se!</SignUpLogin>
+        <SignUpLogin>{t("sign-up")}</SignUpLogin>
       </Link>
     </main>
   );
@@ -147,5 +169,25 @@ const PasswordWrapper = styled.div`
     right: 10px;
     font-size: 30px;
     color: #666666;
+  }
+`;
+
+const LangSelect = styled.div`
+  width: 160px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  select {
+    outline: none;
+    color: #666666;
+    border: 1px solid #d5d5d5;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 70%;
+    height: 30px;
+    padding-left: 5px;
+    font-size: 14px;
   }
 `;

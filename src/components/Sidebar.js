@@ -11,6 +11,11 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
 
   const navigate = useNavigate();
 
+  const lngs = {
+    en: { nativeName: "English" },
+    pt: { nativeName: "Portuguese" },
+  };
+
   return (
     <Menu show={toggleSidebar.show}>
       <Background
@@ -37,8 +42,8 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
                 setLanguage(e.target.value);
               }}
             >
-              <option value="pt-br">🇧🇷 Português</option>
-              <option value="en-us">🇺🇸 English</option>
+              <option value="pt-BR">🇧🇷 Português</option>
+              <option value="en">🇺🇸 English</option>
             </select>
           </div>
           <ButtonDiv>
