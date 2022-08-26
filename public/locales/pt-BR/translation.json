@@ -8,5 +8,6 @@
         "name": "nome",
         "photo": "foto",
         "sign-up": "Cadastrar",
-        "login": "Já tem uma conta? Faça login!"
+        "login": "Já tem uma conta? Faça login!",
+        "theme": "Tema"
 }

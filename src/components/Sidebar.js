@@ -28,7 +28,7 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
           {user.name}
         </div>
         <Options>
-          <div>Theme toggle</div>
+          <div>{t("theme")}</div>
           <div>
             <label htmlFor="language">{t("language")}</label>
             <select

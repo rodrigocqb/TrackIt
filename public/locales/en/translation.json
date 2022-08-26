@@ -8,5 +8,6 @@
     "name": "name",
     "photo": "photo",
     "sign-up": "Sign up",
-    "login": "Already have an account? Log in!"
+    "login": "Already have an account? Log in!",
+    "theme": "Theme"
 }
