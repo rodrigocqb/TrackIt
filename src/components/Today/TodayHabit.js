@@ -89,7 +89,7 @@ export default function TodayHabit({
           </span>
         </div>
       </div>
-      <IconContainer done={done} onClick={checkHabit}>
+      <IconContainer done={done} onClick={checkHabit} disabled={checkLoader}>
         {!checkLoader ? (
           <i className="bi bi-check"></i>
         ) : (
@@ -156,12 +156,15 @@ const RecordSpan = styled.span`
   }};
 `;
 
-export const IconContainer = styled.div`
+export const IconContainer = styled.button`
   width: 69px;
   height: 69px;
   background-color: ${(props) => (props.done ? "#8FC549" : "#EBEBEB")};
   border-radius: 5px;
-  border: 1px solid ${(props) => (props.done ? "#8FC549" : "#E7E7E7")}; ;
+  border: 1px solid ${(props) => (props.done ? "#8FC549" : "#E7E7E7")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LoaderContainer = styled.section`
