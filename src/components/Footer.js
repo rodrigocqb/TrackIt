@@ -4,18 +4,21 @@ import "react-circular-progressbar/dist/styles.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import ProgressContext from "../contexts/ProgressContext";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
   const { progress } = useContext(ProgressContext);
 
+  const { t } = useTranslation();
+
   return (
     <FooterWrapper>
-      <Link to="/habitos">Hábitos</Link>
+      <Link to="/habitos">{t("habits")}</Link>
       <Container>
         <Link to="/hoje">
           <CircularProgressbar
             value={progress}
-            text="Hoje"
+            text={t("today")}
             background={true}
             backgroundPadding={6}
             styles={buildStyles({
@@ -27,7 +30,7 @@ export default function Footer() {
           />
         </Link>
       </Container>
-      <Link to="/historico">Histórico</Link>
+      <Link to="/historico">{t("history")}</Link>
     </FooterWrapper>
   );
 }

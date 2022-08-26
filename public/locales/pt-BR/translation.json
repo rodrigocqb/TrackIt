@@ -16,5 +16,8 @@
   "progressNone": "Nenhum hábito concluído ainda",
   "day": "dia",
   "sequence": "Sequência atual: ",
-  "record": "Seu recorde: "
+  "record": "Seu recorde: ",
+  "habits": "Hábitos",
+  "today": "Hoje",
+  "history": "Histórico"
 }

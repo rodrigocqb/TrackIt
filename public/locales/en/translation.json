@@ -16,5 +16,8 @@
   "progressNone": "No habits done yet",
   "day": "day",
   "sequence": "Current sequence: ",
-  "record": "Your record: "
+  "record": "Your record: ",
+  "habits": "Habits",
+  "today": "Today",
+  "history": "History"
 }
