@@ -11,6 +11,7 @@
   "errorPostHabits": "Please add valid inputs",
   "errorPostHabitDays": "Choose at least one day for your habit",
   "errorDeleteHabit": "An error has occurred when trying to delete your habit",
+  "errorLoadHistory": "An error has occurred when trying to load your history",
   "name": "name",
   "photo": "photo",
   "sign-up": "Sign up",
@@ -30,5 +31,7 @@
   "cancel": "Cancel",
   "save": "Save",
   "noHabits": "You don't have any registered habits yet. Add a habit to start tracking!",
-  "deleteHabit": "Are you sure you wish to delete this habit?"
+  "deleteHabit": "Are you sure you wish to delete this habit?",
+  "noHabitsDay": "There were no habits for this day",
+  "logout": "Are you sure you wish to log out?"
 }

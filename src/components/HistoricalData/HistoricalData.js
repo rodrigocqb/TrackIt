@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useContext, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { useTranslation } from "react-i18next";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -29,15 +30,7 @@ export default function HistoricalData() {
 
   const scroll = useRef(null);
 
-  const week = [
-    "Domingo",
-    "Segunda",
-    "Terça",
-    "Quarta",
-    "Quinta",
-    "Sexta",
-    "Sábado",
-  ];
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     getHistory(token)
@@ -47,10 +40,53 @@ export default function HistoricalData() {
         setLoader(false);
       })
       .catch(() => {
-        alert("Houve um erro ao carregar o histórico");
+        alert(t("errorLoadHistory"));
         setLoader(false);
       });
-  }, [token, setLoader]);
+  }, [token, setLoader, t]);
+
+  let locale;
+  let week;
+  let openDayUS;
+
+  if (openDay.day) {
+    openDayUS = [
+      openDay.day.split("/")[1],
+      openDay.day.split("/")[0],
+      openDay.day.split("/")[2],
+    ];
+  }
+
+  switch (i18n.resolvedLanguage) {
+    case "pt-BR":
+      locale = "pt-br";
+      week = [
+        "Domingo",
+        "Segunda",
+        "Terça",
+        "Quarta",
+        "Quinta",
+        "Sexta",
+        "Sábado",
+      ];
+      break;
+
+    case "en":
+      locale = "en-us";
+      week = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      break;
+
+    default:
+      return;
+  }
 
   function assignColor({ date }) {
     const tileDate = dayjs(date).format("DD/MM/YYYY");
@@ -80,7 +116,7 @@ export default function HistoricalData() {
         scroll.current.scrollIntoView({ behavior: "smooth" });
       }, 300);
     } else {
-      return alert("Não haviam hábitos para este dia");
+      return alert(t("noHabitsDay"));
     }
   }
 
@@ -89,7 +125,7 @@ export default function HistoricalData() {
       <MainAuth>
         <Header />
         <TitleSection>
-          <h1>Histórico</h1>
+          <h1>{t("history")}</h1>
         </TitleSection>
         <CalendarContainer>
           {loader ? (
@@ -101,7 +137,7 @@ export default function HistoricalData() {
             />
           ) : (
             <Calendar
-              locale="pt-br"
+              locale={locale}
               calendarType="US"
               className="calendar"
               formatDay={(locale, date) => dayjs(date).format("DD")}
@@ -113,7 +149,11 @@ export default function HistoricalData() {
         {openDay.open && (
           <DaySection ref={scroll}>
             <TitleSection>
-              <h1>{`${week[openDay.habits[0].weekDay]}, ${openDay.day}`}</h1>
+              <h1>{`${week[openDay.habits[0].weekDay]}, ${
+                i18n.resolvedLanguage === "en"
+                  ? openDayUS.join("/")
+                  : openDay.day
+              }`}</h1>
             </TitleSection>
             {openDay.habits.map((value) => (
               <PastHabit key={value.id} name={value.name} done={value.done} />

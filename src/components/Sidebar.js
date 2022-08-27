@@ -45,7 +45,7 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
           <ButtonDiv>
             <Logout
               onClick={() => {
-                if (window.confirm("Tem certeza que deseja fazer logout?")) {
+                if (window.confirm(t("logout"))) {
                   localStorage.removeItem("user");
                   navigate("/");
                 }

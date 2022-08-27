@@ -11,6 +11,7 @@
   "errorPostHabits": "Insira dados válidos!",
   "errorPostHabitDays": "Selecione pelo menos um dia para o seu hábito!",
   "errorDeleteHabit": "Houve um erro ao tentar deletar o hábito",
+  "errorLoadHistory": "Houve um erro ao carregar o histórico",
   "name": "nome",
   "photo": "foto",
   "sign-up": "Cadastrar",
@@ -30,5 +31,7 @@
   "cancel": "Cancelar",
   "save": "Salvar",
   "noHabits": "Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!",
-  "deleteHabit": "Tem certeza que deseja deletar este hábito?"
+  "deleteHabit": "Tem certeza que deseja deletar este hábito?",
+  "noHabitsDay": "Não haviam hábitos para este dia",
+  "logout": "Tem certeza que deseja fazer logout?"
 }
