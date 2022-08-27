@@ -14,7 +14,7 @@ function useLocal() {
     if (localUser) {
       setUser(localUser);
       setToken(localUser.token);
-      navigate("/hoje");
+      navigate("/today");
     }
   }, [navigate, setToken, setUser]);
 }
