@@ -31,9 +31,9 @@ function App() {
             <GlobalStyle />
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/cadastro" element={<SignUp />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route
-                path="/habitos"
+                path="/habits"
                 element={
                   <PrivatePage>
                     <Habits />
@@ -41,7 +41,7 @@ function App() {
                 }
               />
               <Route
-                path="/hoje"
+                path="/today"
                 element={
                   <PrivatePage>
                     <Today />
@@ -49,7 +49,7 @@ function App() {
                 }
               />
               <Route
-                path="/historico"
+                path="/history"
                 element={
                   <PrivatePage>
                     <HistoricalData />

@@ -13,9 +13,9 @@ export default function Footer() {
 
   return (
     <FooterWrapper>
-      <Link to="/habitos">{t("habits")}</Link>
+      <Link to="/habits">{t("habits")}</Link>
       <Container>
-        <Link to="/hoje">
+        <Link to="/today">
           <CircularProgressbar
             value={progress}
             text={t("today")}
@@ -30,7 +30,7 @@ export default function Footer() {
           />
         </Link>
       </Container>
-      <Link to="/historico">{t("history")}</Link>
+      <Link to="/history">{t("history")}</Link>
     </FooterWrapper>
   );
 }

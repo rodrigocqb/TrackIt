@@ -105,7 +105,7 @@ export default function HistoricalData() {
     const tileDate = dayjs(value).format("DD/MM/YYYY");
     const today = dayjs().format("DD/MM/YYYY");
     if (tileDate === today) {
-      navigate("/");
+      navigate("/today");
     } else if (data.some((v) => v.day === tileDate)) {
       setOpenDay({
         open: true,

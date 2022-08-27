@@ -44,7 +44,7 @@ export default function Login() {
         setUser(res.data);
         localStorage.setItem("user", JSON.stringify(res.data));
         setToken(res.data.token);
-        navigate("/hoje");
+        navigate("/today");
       })
       .catch(() => {
         alert(t("errorLogIn"));
@@ -118,7 +118,7 @@ export default function Login() {
           )}
         </Button>
       </FormWrapper>
-      <Link to="/cadastro">
+      <Link to="/signup">
         <SignUpLogin>{t("signUpLink")}</SignUpLogin>
       </Link>
     </main>
