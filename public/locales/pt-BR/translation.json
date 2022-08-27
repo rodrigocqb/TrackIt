@@ -7,6 +7,10 @@
   "errorSignUp": "Houve um erro no seu cadastro.",
   "errorCheck": "Houve um erro ao marcar seu hábito",
   "errorUncheck": "Houve um erro ao desmarcar seu hábito",
+  "errorLoadHabits": "Houve um erro ao carregar os hábitos",
+  "errorPostHabits": "Insira dados válidos!",
+  "errorPostHabitDays": "Selecione pelo menos um dia para o seu hábito!",
+  "errorDeleteHabit": "Houve um erro ao tentar deletar o hábito",
   "name": "nome",
   "photo": "foto",
   "sign-up": "Cadastrar",
@@ -20,5 +24,11 @@
   "habits": "Hábitos",
   "today": "Hoje",
   "history": "Histórico",
-  "pleaseLogIn": "Por favor, faça login antes de acessar essa página"
+  "pleaseLogIn": "Por favor, faça login antes de acessar essa página",
+  "myHabits": "Meus hábitos",
+  "habitName": "nome do hábito",
+  "cancel": "Cancelar",
+  "save": "Salvar",
+  "noHabits": "Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!",
+  "deleteHabit": "Tem certeza que deseja deletar este hábito?"
 }

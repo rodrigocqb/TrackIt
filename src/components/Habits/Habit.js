@@ -6,6 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import dayjs from "dayjs";
 import ProgressContext from "../../contexts/ProgressContext";
 import { Oval } from "react-loader-spinner";
+import { useTranslation } from "react-i18next";
 
 export default function Habit({
   id,
@@ -20,10 +21,12 @@ export default function Habit({
   const { token } = useContext(LoginContext);
   const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
 
+  const { t } = useTranslation();
+
   const today = dayjs().format("d");
 
   function removeHabit() {
-    if (window.confirm("Tem certeza que deseja deletar este hábito?")) {
+    if (window.confirm(t("deleteHabit"))) {
       setDeleteLoader(true);
       deleteHabit(id, token)
         .then(() => {
@@ -55,7 +58,7 @@ export default function Habit({
           setLoadSwitch(!loadSwitch);
         })
         .catch(() => {
-          alert("Houve um erro ao tentar deletar o hábito");
+          alert(t("errorDeleteHabit"));
           setDeleteLoader(false);
         });
     }
@@ -71,9 +74,9 @@ export default function Habit({
           </Day>
         ))}
       </div>
-      <TrashContainer onClick={removeHabit}>
+      <TrashContainer>
         {!deleteLoader ? (
-          <i className="bi bi-trash"></i>
+          <i className="bi bi-trash" onClick={removeHabit}></i>
         ) : (
           <Oval
             height="17"

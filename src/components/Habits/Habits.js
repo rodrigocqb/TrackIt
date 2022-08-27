@@ -13,6 +13,7 @@ import DayButton from "./DayButton";
 import Footer from "../Footer";
 import Habit from "./Habit";
 import Header from "../Header";
+import { useTranslation } from "react-i18next";
 
 export default function Habits() {
   const [userHabits, setUserHabits] = useState([]);
@@ -28,7 +29,9 @@ export default function Habits() {
   const { token } = useContext(LoginContext);
   const { todayDone, setTodayDone, setProgress } = useContext(ProgressContext);
 
-  const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
+  const { t, i18n } = useTranslation();
+
+  let weekdays;
   const today = dayjs().format("d");
 
   useEffect(() => {
@@ -38,10 +41,23 @@ export default function Habits() {
         setLoaderSpinner(false);
       })
       .catch(() => {
-        alert("Houve um erro ao carregar os hábitos");
+        alert(t("errorLoadHabits"));
         setLoaderSpinner(false);
       });
-  }, [token, loadSwitch, setLoaderSpinner]);
+  }, [token, loadSwitch, setLoaderSpinner, t]);
+
+  switch (i18n.resolvedLanguage) {
+    case "pt-BR":
+      weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
+      break;
+
+    case "en":
+      weekdays = ["S", "M", "T", "W", "T", "F", "S"];
+      break;
+
+    default:
+      return;
+  }
 
   function handleNewHabit({ value, name }) {
     setNewHabit({
@@ -63,7 +79,7 @@ export default function Habits() {
 
   function createHabit() {
     if (newHabit.days.length === 0) {
-      return alert("Selecione pelo menos um dia para o seu hábito!");
+      return alert(t("errorPostHabitDays"));
     }
 
     setDisabled(true);
@@ -93,7 +109,7 @@ export default function Habits() {
         setLoadSwitch(!loadSwitch);
       })
       .catch(() => {
-        alert("Insira dados válidos!");
+        alert(t("errorPostHabits"));
         setDisabled(false);
       });
   }
@@ -103,7 +119,7 @@ export default function Habits() {
       <Header />
       <MainAuth>
         <TitleSection Button={true}>
-          <h1>Meus hábitos</h1>
+          <h1>{t("myHabits")}</h1>
           <AddButton onClick={showHabitForm}>+</AddButton>
         </TitleSection>
         {newHabit.open && (
@@ -111,7 +127,7 @@ export default function Habits() {
             <div>
               <Input
                 type="text"
-                placeholder="nome do hábito"
+                placeholder={t("habitName")}
                 name="habit"
                 value={newHabit.habit}
                 onChange={(e) => {
@@ -137,7 +153,7 @@ export default function Habits() {
                 ))}
               </DaysContainer>
               <FormBottom>
-                <p onClick={showHabitForm}>Cancelar</p>
+                <p onClick={showHabitForm}>{t("cancel")}</p>
                 <SaveButton
                   type="submit"
                   disabled={disabled}
@@ -151,7 +167,7 @@ export default function Habits() {
                       ariaLabel="three-dots-loading"
                     />
                   ) : (
-                    <span>Salvar</span>
+                    <span>{t("save")}</span>
                   )}
                 </SaveButton>
               </FormBottom>
@@ -168,10 +184,7 @@ export default function Habits() {
         ) : (
           <HabitsSection>
             {userHabits.length === 0 ? (
-              <span>
-                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
-                para começar a trackear!
-              </span>
+              <span>{t("noHabits")}</span>
             ) : (
               <HabitsContainer>
                 {userHabits.map((value) => (
