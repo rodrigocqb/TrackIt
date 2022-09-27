@@ -28,20 +28,17 @@ export default function Sidebar({ toggleSidebar, setToggleSidebar }) {
           {user.name}
         </div>
         <Options>
-          <div>{t("theme")}</div>
-          <div>
-            <label htmlFor="language">{t("language")}</label>
-            <select
-              name="language"
-              value={i18n.resolvedLanguage}
-              onChange={(e) => {
-                i18n.changeLanguage(e.target.value);
-              }}
-            >
-              <option value="pt-BR">🇧🇷 Português</option>
-              <option value="en">🇺🇸 English</option>
-            </select>
-          </div>
+          <label htmlFor="language">{t("language")}</label>
+          <select
+            name="language"
+            value={i18n.resolvedLanguage}
+            onChange={(e) => {
+              i18n.changeLanguage(e.target.value);
+            }}
+          >
+            <option value="pt-BR">🇧🇷 Português</option>
+            <option value="en">🇺🇸 English</option>
+          </select>
           <ButtonDiv>
             <Logout
               onClick={() => {
@@ -146,6 +143,7 @@ const Options = styled.div`
     border-radius: 5px;
     margin-top: 5px;
     width: 70%;
+    min-width: 120px;
     height: 30px;
     padding-left: 5px;
     font-size: 14px;

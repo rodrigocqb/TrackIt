@@ -57,7 +57,7 @@ export default function Login() {
   }
 
   return (
-    <main>
+    <MainNotAuth>
       <MainLogo src={Logo} alt="" />
       <LangSelect>
         <label htmlFor="language">{t("language")}</label>
@@ -121,7 +121,7 @@ export default function Login() {
       <Link to="/signup">
         <SignUpLogin>{t("signUpLink")}</SignUpLogin>
       </Link>
-    </main>
+    </MainNotAuth>
   );
 }
 
